@@ -1,47 +1,75 @@
 import type { SVGProps } from 'react'
+import {
+  Activity,
+  AlertCircle,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  ClipboardCheck,
+  Clock,
+  Coffee,
+  Cookie,
+  Droplets,
+  FlaskConical,
+  Heart,
+  HeartPulse,
+  Info,
+  Loader2,
+  MapPin,
+  MapPinOff,
+  Menu,
+  Phone,
+  Scale,
+  Search,
+  TrendingUp,
+  Users,
+  X,
+  XCircle,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
-const paths: Record<string, string> = {
-  droplets:
-    'M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z',
-  heart: 'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z',
-  users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2',
-  trendingUp: 'M22 7l-8.5 8.5-5-5L2 17',
-  calendar: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z',
-  scale: 'M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z',
-  clock: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5v5l3 3',
-  clipboardCheck:
-    'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Zm-5 13 2 2 4-4',
-  chevronRight: 'm9 18 6-6-6-6',
-  chevronDown: 'm6 9 6 6 6-6',
-  x: 'M18 6 6 18M6 6l12 12',
-  search: 'M21 21l-4.35-4.35M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z',
-  'check-circle': 'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3',
-  'alert-circle':
-    'M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0ZM12 9v4M12 17h.01',
-  'x-circle':
-    'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Zm-13-3 6 6m0-6-6 6',
-  coffee: 'M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z',
-  'heart-pulse':
-    'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z',
-  cookie: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z',
-  activity: 'M22 12h-4l-3 9L9 3l-3 9H2',
-  info: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-11v5m0-8h.01',
-  'map-pin': 'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z',
-  'map-pin-off':
-    'M20 10c0 6-8 12-8 12s-2.5-2.05-5.2-5.15M3.5 2.5l17 17M6.27 6.27A8 8 0 0 1 20 10c0 1.6-.5 3.2-1.35 4.8',
+// Icônes de marques retirées des versions récentes de lucide — conservées en SVG inline.
+const brandPaths: Record<string, string> = {
   facebook:
     'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z',
   twitter:
     'M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z',
   instagram:
     'M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2a3.9 3.9 0 0 1-.9 1.4c-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.9 3.9 0 0 1-1.4-.9c-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.8.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.3-.3.7-.3 1.8-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.8.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.1.7.3 1.8.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.8-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.3.3-.7.3-1.8.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.8a2.9 2.9 0 0 0-.7-1.1c-.3-.3-.6-.5-1.1-.7-.3-.1-.7-.3-1.8-.3-1.3-.1-1.7-.1-4.8-.1Zm0 3.1a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 8.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.4-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0Z',
-  phone: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z',
-  menu: 'M4 6h16M4 12h16M4 18h16',
-  building:
-    'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 12h.01M9 15h.01M15 9h.01M15 12h.01M15 15h.01',
-  'loader-2': 'M21 12a9 9 0 1 1-6.219-8.56',
-  flaskConical:
-    'M10 2v7.31a2 2 0 0 1-.4 1.19L4.8 17.21A3 3 0 0 0 7.19 21h9.62a3 3 0 0 0 2.39-4.79l-4.8-6.71a2 2 0 0 1-.4-1.19V2M14 2H10M4.98 15.5h14.04',
+}
+
+const icons: Record<string, LucideIcon> = {
+  activity: Activity,
+  'alert-circle': AlertCircle,
+  building: Building2,
+  calendar: Calendar,
+  'check-circle': CheckCircle2,
+  'check-circle-2': CheckCircle,
+  chevronDown: ChevronDown,
+  chevronRight: ChevronRight,
+  clipboardCheck: ClipboardCheck,
+  clock: Clock,
+  coffee: Coffee,
+  cookie: Cookie,
+  droplets: Droplets,
+  flaskConical: FlaskConical,
+  heart: Heart,
+  'heart-pulse': HeartPulse,
+  info: Info,
+  'loader-2': Loader2,
+  'map-pin': MapPin,
+  'map-pin-off': MapPinOff,
+  menu: Menu,
+  phone: Phone,
+  scale: Scale,
+  search: Search,
+  trendingUp: TrendingUp,
+  users: Users,
+  x: X,
+  'x-circle': XCircle,
 }
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
@@ -50,7 +78,13 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
 }
 
 export function Icon({ name, size = 24, ...props }: IconProps) {
-  const d = paths[name] ?? paths.info
+  const Lucide = icons[name]
+
+  if (Lucide) {
+    return <Lucide size={size} aria-hidden="true" {...props} />
+  }
+
+  const d = brandPaths[name] ?? brandPaths.facebook
   return (
     <svg
       width={size}
