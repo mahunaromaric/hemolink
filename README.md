@@ -70,6 +70,16 @@ La mention *« Seul un entretien médical professionnel peut confirmer l'aptitud
 
 Conçu mobile-first de **390 px à 1440 px** : nav + menu mobile plein écran, grilles fluides, cartes réactives, aucun débordement horizontal.
 
+## Préparation au lancement — audit
+
+La page a été passée au crible par l'auditeur **https://isreadyforlaunch.com/**, qui détecte les anomalies avant mise en ligne. Le prompt d'analyse de l'outil a été transmis à l'agent de code pour corriger chaque anomalie :
+
+- **En-têtes de sécurité** : CSP (`default-src 'self'` …), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` (HSTS géré par Vercel).
+- **SEO & partage social** : lien `canonical`, `og:image` 1200×630 (capture réelle du hero, polices de marque), `og:url` même origin, `robots.txt` + `sitemap.xml` générés à la build.
+- **Accessibilité** : cible tactile ≥ 48 px sur les CTA, focus visible, accordéon FAQ accessible (`aria-expanded`, `aria-controls`, `inert`).
+- **Vitalité visuelle** : hero animé (gouttes, compteurs), graphe des réserves animé, FAQ en accordéon animé — le tout coupé par `prefers-reduced-motion`.
+- **Faux positifs documentés** : `ants.bj` (403 anti-bot côté tiers), HTTPS/TLS (infra Vercel).
+
 ## Partis pris de conception
 
 1. **Rassurer avant de convaincre** : le hero attaque les deux plus grandes peurs dès le premier écran (durée « 10 min », impact « 3 vies »).

@@ -9,7 +9,8 @@ Ce document retrace honnêtement le processus de conception et de développement
 | Outil | Usage |
 |---|---|
 | **superdesign.dev** (web + CLI `@superdesign/cli`) | Conception visuelle initiale : design de la landing page sur canvas infini, export du HTML |
-| **Agent de code (opencode)** | Analyse du brief, audit du design exporté, portage React, algorithme d'éligibilité, tests, accessibilité, relectures produit |
+| **isreadyforlaunch.com** | Audit de préparation au lancement : détection des anomalies (SEO, accessibilité, sécurité, partage social) avant mise en ligne |
+| **Agent de code (opencode)** | Analyse du brief, audit du design exporté, portage React, algorithme d'éligibilité, tests, accessibilité, relectures produit, corrections des anomalies d'audit |
 
 ---
 
@@ -38,6 +39,11 @@ Exécuté via le CLI officiel : `list-design-systems` → identification du proj
 
 ### Étape 6 — Relecture produit & durcissement (cette itération)
 > Direction validée par le pilote, hors prompts : passage aux **vraies données** (répertoire ANTS, chiffres officiels), allègement du design (fonds clairs, moins de décor), unification de la voix des libellés, durcissement de l'algorithme et nettoyage du projet.
+
+### Étape 7 — Audit de préparation au lancement
+> *Prompt isreadyforlaunch.com transmis à l'agent : « Corrige les anomalies détectées par l'audit de préparation au lancement (en-têtes de sécurité, canonical, og:image 1200×630, cible tactile ≥ 48 px, accordéon accessible) et documente les faux positifs. »*
+
+Résultat : en-têtes de sécurité via `vercel.json` (CSP `default-src 'self'`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`), lien `canonical`, `og:url` aligné, `og:image` 1200×630 (d'abord en SVG manuel, puis **capture réelle de la section hero** via `scripts/capture-og.mjs` + `puppeteer-core` pour embarquer les polices de marque), `robots.txt` + `sitemap.xml` générés à la build, cible tactile ≥ 48 px sur les CTA, accordéon FAQ rendu accessible (`aria-expanded`, `aria-controls`, `inert`), et animations (hero, réserves, FAQ) respectant `prefers-reduced-motion`. Faux positifs documentés : `ants.bj` (403 anti-bot côté tiers, OK sur mobile) et HTTPS/TLS (infra Vercel).
 
 ---
 
@@ -89,6 +95,7 @@ Exécuté via le CLI officiel : `list-design-systems` → identification du proj
 | **recharts compatible au build mais page blanche au runtime** | Vérifié sur recharts v3.10.1 + React 19 → graphe retiré, reconstruction en CSS pur. |
 | **ANTS : pas de données publiques exhaustives** | L'annuaire JSON `ants.bj` liste 39 structures mais : pas de répartition officielle des types de dons par site (estimée), pas d'API temps réel pour les réserves → chiffres **indicatifs** avec disclaimer, et pas de témoignages vérifiables → remplacés par des statistiques officielles. |
 | **Réseau très lent pour npm / téléchargements** | Installation en arrière-plan, tests de miroirs de registre, temps de construction allongés. |
+| **Les moteurs de rasterisation SVG ignorent les polices embarquées** | Ni `librsvg` (sharp) ni `@resvg/resvg-js` ne chargent les `@font-face` en data-URI ou les woff2 passés en `fontBuffers` → l'`og:image` repose sur une **capture navigateur réelle** (`puppeteer-core` + Chrome système) qui rend les polices de marque à l'identique du site. |
 
 ---
 
