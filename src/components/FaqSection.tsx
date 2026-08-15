@@ -34,40 +34,106 @@ const faqs: FaqItem[] = [
   },
 ]
 
-function Accordion({ item, isOpen, onToggle }: { item: FaqItem; isOpen: boolean; onToggle: () => void }) {
-  const panelId = `faq-panel-${item.q}`
+const DROP_BG = 'M13 0 C18 8 26 14 26 21 A13 13 0 1 1 0 21 C0 14 8 8 13 0 Z'
+
+function FaqBackground() {
   return (
-    <>
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute -top-20 -left-16 w-72 h-72 text-red-tint/50 blur-2xl"
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute -bottom-16 -right-20 w-[24rem] h-[24rem] text-pink-tint/70 blur-2xl"
+        style={{ animationDelay: '-8s', animationDuration: '19s' }}
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+    </div>
+  )
+}
+
+function Accordion({
+  index,
+  item,
+  isOpen,
+  onToggle,
+}: {
+  index: number
+  item: FaqItem
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  const panelId = `faq-panel-${index}`
+  return (
+    <div
+      className={`relative rounded-2xl transition-colors ${
+        isOpen ? 'bg-white shadow-card' : 'hover:bg-white/60'
+      }`}
+    >
+      {isOpen && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-4 bottom-4 w-1 rounded-full bg-primary"
+        />
+      )}
       <h3 className="m-0">
         <button
           type="button"
-          id={`faq-button-${item.q}`}
+          id={`faq-button-${index}`}
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={onToggle}
-          className="w-full flex items-center justify-between gap-4 py-6 text-left transition-colors group"
+          className="group w-full flex items-center gap-4 px-4 sm:px-5 py-5 text-left"
         >
-          <span className="font-display text-lg font-medium group-hover:text-primary transition-colors">
+          <span
+            className={`font-mono text-xs font-semibold w-8 shrink-0 transition-colors ${
+              isOpen ? 'text-primary' : 'text-ink-faint'
+            }`}
+          >
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <span
+            className={`flex-1 font-display text-lg font-medium leading-snug transition-colors ${
+              isOpen ? 'text-primary' : 'group-hover:text-primary'
+            }`}
+          >
             {item.q}
           </span>
-          <Icon
-            name="plus"
-            size={18}
-            className={`text-primary shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}
-          />
+          <span
+            className={`shrink-0 w-9 h-9 inline-flex items-center justify-center rounded-full transition-colors ${
+              isOpen
+                ? 'bg-primary text-white'
+                : 'bg-red-tint text-primary group-hover:bg-primary group-hover:text-white'
+            }`}
+          >
+            <Icon
+              name="plus"
+              size={16}
+              className={`transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}
+            />
+          </span>
         </button>
       </h3>
-      {isOpen && (
-        <div
-          id={panelId}
-          role="region"
-          aria-labelledby={`faq-button-${item.q}`}
-          className="pb-6"
-        >
-          <p className="text-sm text-ink-soft max-w-[70ch]">{item.a}</p>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={`faq-button-${index}`}
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+        className="faq-panel grid transition-[grid-template-rows] duration-300 ease-out"
+        style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+      >
+        <div className="overflow-hidden">
+          <p className="px-4 sm:px-5 pb-5 pt-1 text-sm text-ink-soft max-w-[70ch]">
+            {item.a}
+          </p>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   )
 }
 
@@ -75,8 +141,12 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="py-16 sm:py-22 bg-cream-alt relative overflow-hidden">
-      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
+    <section
+      id="faq"
+      className="relative py-16 sm:py-22 bg-gradient-to-b from-pink-tint to-white overflow-hidden"
+    >
+      <FaqBackground />
+      <Reveal className="relative z-10 max-w-6xl mx-auto px-4 sm:px-7">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-x-12 gap-y-8 items-start">
           <div className="max-w-[640px]">
             <div className="eyebrow mb-4">
@@ -89,15 +159,16 @@ export default function FaqSection() {
             </p>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-2.5">
             {faqs.map((item, i) => (
-              <div key={item.q} className="border-b border-line">
+              <Reveal key={item.q} delay={i * 60}>
                 <Accordion
+                  index={i}
                   item={item}
                   isOpen={openIndex === i}
                   onToggle={() => setOpenIndex(openIndex === i ? null : i)}
                 />
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
