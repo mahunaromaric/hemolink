@@ -1,5 +1,4 @@
-import { mkdirSync } from 'node:fs'
-import { readFileSync } from 'node:fs'
+import { mkdirSync, readFileSync } from 'node:fs'
 import sharp from 'sharp'
 import { getSiteUrl } from './site-url.mjs'
 
@@ -8,28 +7,34 @@ const siteLabel = getSiteUrl().replace(/^https?:\/\//, '')
 
 const ogCardSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="drop" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#E8485E"/>
-      <stop offset="1" stop-color="#A50F24"/>
-    </linearGradient>
-  </defs>
   <rect width="1200" height="630" fill="#FBF4F1"/>
-  <circle cx="1030" cy="110" r="280" fill="#E3EEEC"/>
-  <circle cx="120" cy="560" r="300" fill="#FDEBEE"/>
-  <g transform="translate(270 240) scale(4.2)">
-    <path d="M32 10C32 10 18 26 18 38a14 14 0 0 0 28 0C46 26 32 10 32 10Z" fill="url(#drop)"/>
-    <circle cx="41" cy="40" r="5" fill="white" fill-opacity="0.4"/>
+  <g transform="translate(1120 90) scale(6)">
+    <path d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#C8102E" fill-opacity="0.06"/>
   </g>
-  <text x="270" y="470" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="74" fill="#221416">HemoLink</text>
-  <text x="270" y="525" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-weight="600" font-size="27" letter-spacing="2" fill="#12414A">DON DE SANG AU BÉNIN</text>
-  <text x="650" y="250" font-family="DejaVu Serif, serif" font-weight="600" font-size="54" fill="#221416">Un geste de dix minutes.</text>
-  <text x="650" y="330" font-family="DejaVu Serif, serif" font-weight="700" font-size="54" fill="#C8102E">Trois vies sauvées.</text>
-  <text x="650" y="405" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#6B5652">Trouvez un centre de don proche de vous et</text>
-  <text x="650" y="440" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#6B5652">testez votre éligibilité en moins d'une minute.</text>
-  <rect x="650" y="500" width="430" height="3" rx="1.5" fill="#E7D9D2"/>
-  <text x="650" y="545" font-family="DejaVu Sans, sans-serif" font-weight="600" font-size="24" fill="#12414A">${siteLabel}</text>
-  <rect width="1200" height="14" fill="#C8102E"/>
+  <g transform="translate(560 560) scale(4)">
+    <path d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#12414A" fill-opacity="0.05"/>
+  </g>
+
+  <rect x="0" y="0" width="480" height="630" fill="#12414A"/>
+  <g transform="translate(240 150) scale(2.8)">
+    <path d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#FFFFFF"/>
+    <ellipse cx="5" cy="4" rx="4.5" ry="6" fill="#FFFFFF" fill-opacity="0.4"/>
+  </g>
+  <text x="240" y="272" text-anchor="middle" font-family="'DejaVu Sans', sans-serif" font-weight="700" font-size="64" fill="#FFFFFF">HemoLink</text>
+  <text x="240" y="322" text-anchor="middle" font-family="'DejaVu Sans Mono', monospace" font-weight="600" font-size="19" letter-spacing="5" fill="#A7C4C9">DON DE SANG AU BÉNIN</text>
+
+  <text x="520" y="240" font-family="'DejaVu Sans', sans-serif" font-weight="600" font-size="56" fill="#221416">Un geste de dix minutes.</text>
+  <text x="520" y="305" font-family="'DejaVu Sans', sans-serif" font-weight="700" font-size="56" fill="#C8102E">Trois vies sauvées.</text>
+  <text x="520" y="365" font-family="'DejaVu Sans', sans-serif" font-size="25" fill="#6B5652">Trouvez un centre proche de vous et testez</text>
+  <text x="520" y="400" font-family="'DejaVu Sans', sans-serif" font-size="25" fill="#6B5652">votre éligibilité en moins d'une minute.</text>
+
+  <rect x="520" y="445" width="300" height="56" rx="28" fill="#C8102E"/>
+  <text x="670" y="480" text-anchor="middle" font-family="'DejaVu Sans', sans-serif" font-weight="700" font-size="21" fill="#FFFFFF">Tester mon éligibilité</text>
+
+  <rect x="520" y="540" width="560" height="2" rx="1" fill="#E7D9D2"/>
+  <text x="520" y="572" font-family="'DejaVu Sans', sans-serif" font-weight="600" font-size="20" fill="#12414A">${siteLabel}</text>
+
+  <rect x="0" y="616" width="1200" height="14" fill="#C8102E"/>
 </svg>
 `
 
