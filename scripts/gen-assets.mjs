@@ -1,8 +1,10 @@
 import { mkdirSync } from 'node:fs'
 import { readFileSync } from 'node:fs'
 import sharp from 'sharp'
+import { getSiteUrl } from './site-url.mjs'
 
 const publicDir = new URL('../public/', import.meta.url).pathname
+const siteLabel = getSiteUrl().replace(/^https?:\/\//, '')
 
 const ogCardSvg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
@@ -26,7 +28,7 @@ const ogCardSvg = `
   <text x="650" y="405" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#6B5652">Trouvez un centre de don proche de vous et</text>
   <text x="650" y="440" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#6B5652">testez votre éligibilité en moins d'une minute.</text>
   <rect x="650" y="500" width="430" height="3" rx="1.5" fill="#E7D9D2"/>
-  <text x="650" y="545" font-family="DejaVu Sans, sans-serif" font-weight="600" font-size="24" fill="#12414A">hemolink-nu.vercel.app</text>
+  <text x="650" y="545" font-family="DejaVu Sans, sans-serif" font-weight="600" font-size="24" fill="#12414A">${siteLabel}</text>
   <rect width="1200" height="14" fill="#C8102E"/>
 </svg>
 `

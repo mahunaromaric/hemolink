@@ -96,7 +96,7 @@ export default function TestimonialsSection() {
           </p>
           <a
             href="#centres"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
+            className="inline-flex items-center min-h-12 gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
           >
             Trouver un centre de don
             <Icon name="chevronRight" size={15} />

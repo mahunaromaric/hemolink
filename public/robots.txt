@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hemolink-nu.vercel.app/sitemap.xml
+Sitemap: https://hemolink-ten.vercel.app/sitemap.xml
