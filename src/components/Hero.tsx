@@ -1,5 +1,6 @@
 import { Icon } from './Icon'
 import { centres } from '../data/centres'
+import Reveal from './Reveal'
 
 const stats = [
   { value: '3', label: 'vies aidées par un seul don' },
@@ -100,7 +101,7 @@ export default function Hero() {
       id="home-hero"
       className="bg-cream-alt pt-16 sm:pt-24 md:pt-32 pb-14 sm:pb-20 overflow-hidden"
     >
-        <div className="max-w-6xl mx-auto px-4 sm:px-7 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+        <Reveal className="max-w-6xl mx-auto px-4 sm:px-7 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
           <div>
             <div className="eyebrow mb-4 whitespace-nowrap">
               <Icon name="droplets" size={14} />
@@ -134,10 +135,10 @@ export default function Hero() {
                 Trouver un centre
               </a>
             </div>
-            <div className="mt-10 grid grid-cols-3 max-w-md gap-6">
+            <div className="mt-10 grid grid-cols-3 max-w-md gap-4">
               {stats.map((s) => (
                 <div key={s.label}>
-                  <p className="font-mono text-3xl font-semibold text-secondary whitespace-nowrap">
+                  <p className="font-mono text-2xl sm:text-3xl font-semibold text-secondary whitespace-nowrap">
                     {s.value}
                   </p>
                   <p className="text-xs text-ink-faint leading-snug">{s.label}</p>
@@ -149,7 +150,7 @@ export default function Hero() {
           <div className="relative self-center">
             <HeroIllustration />
           </div>
-        </div>
+        </Reveal>
       </section>
   )
 }

@@ -7,6 +7,7 @@ import {
   type EligibilityResult,
 } from '../lib/eligibility'
 import type { Gender } from '../lib/eligibility'
+import Reveal from './Reveal'
 
 type FieldErrors = Partial<Record<'age' | 'weight' | 'date', string>>
 
@@ -85,7 +86,7 @@ export default function EligibilitySection() {
 
   return (
     <section id="eligibilite" className="py-16 sm:py-22">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
           <div>
             <div className="eyebrow mb-4">
@@ -303,7 +304,7 @@ export default function EligibilitySection() {
           </p>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

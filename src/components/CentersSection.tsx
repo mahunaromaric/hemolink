@@ -3,6 +3,7 @@ import { centres } from '../data/centres'
 import type { Centre, DonType } from '../types'
 import { isOpenNow } from '../lib/openStatus'
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 const donLabels: Record<DonType, string> = {
   total: 'Sang total',
@@ -143,7 +144,7 @@ export default function CentersSection() {
   return (
     <section id="centres" className="relative overflow-hidden py-14 sm:py-20 bg-gradient-to-b from-pink-tint to-white">
       <CentersBackground />
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="relative z-10 max-w-6xl mx-auto px-4 sm:px-7">
         <div className="max-w-[640px] mb-10">
           <div className="eyebrow mb-4">
             <Icon name="map-pin" size={14} />
@@ -275,7 +276,7 @@ export default function CentersSection() {
             </p>
           </div>
         )}
-      </div>
+      </Reveal>
     </section>
   )
 }

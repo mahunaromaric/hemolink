@@ -2,6 +2,7 @@ import type { SVGProps } from 'react'
 import {
   AlertCircle,
   Baby,
+  CalendarCheck,
   CheckCircle2,
   ChevronRight,
   ClipboardCheck,
@@ -33,6 +34,7 @@ const icons: Record<string, LucideIcon> = {
   'alert-circle': AlertCircle,
   'alert-triangle': TriangleAlert,
   baby: Baby,
+  calendarCheck: CalendarCheck,
   'check-circle': CheckCircle2,
   chevronRight: ChevronRight,
   clipboardCheck: ClipboardCheck,

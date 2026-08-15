@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 interface FaqItem {
   q: string
@@ -75,7 +76,7 @@ export default function FaqSection() {
 
   return (
     <section id="faq" className="py-16 sm:py-22 bg-cream-alt relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-x-12 gap-y-8 items-start">
           <div className="max-w-[640px]">
             <div className="eyebrow mb-4">
@@ -114,7 +115,7 @@ export default function FaqSection() {
             HemoLink
           </span>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

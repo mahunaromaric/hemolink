@@ -1,4 +1,5 @@
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 const steps = [
   {
@@ -40,7 +41,7 @@ const preparation = [
 export default function ProcessSection() {
   return (
     <section id="deroulement" className="py-16 sm:py-22 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {preparation.map((p, i) => (
@@ -87,7 +88,7 @@ export default function ProcessSection() {
           </ol>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

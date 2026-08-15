@@ -1,4 +1,5 @@
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 interface ImpactCard {
   icon: string
@@ -35,7 +36,7 @@ const cards: ImpactCard[] = [
 export default function ImpactSection() {
   return (
     <section id="pourquoi" className="py-16 sm:py-22 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="max-w-[640px] mb-12">
           <div className="eyebrow mb-4">
             <Icon name="heart" size={14} />
@@ -71,7 +72,7 @@ export default function ImpactSection() {
             </article>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

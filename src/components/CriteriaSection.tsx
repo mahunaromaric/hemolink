@@ -1,4 +1,5 @@
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 const criteria = [
   {
@@ -18,7 +19,7 @@ const criteria = [
 export default function CriteriaSection() {
   return (
     <section id="criteria" className="py-16 sm:py-22 bg-gradient-to-b from-white to-cream-alt">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="max-w-[640px] mb-8">
           <div className="eyebrow mb-4">
             <Icon name="check-circle" size={14} />
@@ -68,7 +69,7 @@ export default function CriteriaSection() {
             </a>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

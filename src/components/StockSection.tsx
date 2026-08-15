@@ -1,4 +1,5 @@
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 type Level = 'critique' | 'faible' | 'correct' | 'stable'
 
@@ -33,7 +34,7 @@ export default function StockSection() {
 
   return (
     <section id="reserves" className="py-16 sm:py-22">
-      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="max-w-6xl mx-auto px-4 sm:px-7">
         <div className="max-w-[640px] mb-10">
           <div className="eyebrow mb-4">
             <Icon name="trendingUp" size={14} />
@@ -105,7 +106,7 @@ export default function StockSection() {
             .
           </p>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }

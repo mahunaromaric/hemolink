@@ -1,4 +1,5 @@
 import { Icon } from './Icon'
+import Reveal from './Reveal'
 
 interface ImpactStat {
   icon: string
@@ -44,7 +45,7 @@ export default function TestimonialsSection() {
       id="impact-stories"
       className="relative overflow-hidden py-16 sm:py-22 bg-white"
     >
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-7">
+      <Reveal className="relative max-w-6xl mx-auto px-4 sm:px-7">
         <div className="max-w-[640px] mb-10">
           <div className="eyebrow mb-4">
             <Icon name="trendingUp" size={14} />
@@ -101,7 +102,7 @@ export default function TestimonialsSection() {
             <Icon name="chevronRight" size={15} />
           </a>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
