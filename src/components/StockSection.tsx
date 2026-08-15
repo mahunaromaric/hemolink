@@ -22,10 +22,10 @@ const stock: StockLevel[] = [
 ]
 
 const levelStyles: Record<Level, { label: string; chip: string; bar: string }> = {
-  critique: { label: 'Critique', chip: 'bg-red-tint text-red-deep', bar: 'bg-primary' },
-  faible: { label: 'Faible', chip: 'bg-amber-tint text-[#6E4A22]', bar: 'bg-amber' },
-  correct: { label: 'Correct', chip: 'bg-teal-soft text-secondary', bar: 'bg-secondary' },
-  stable: { label: 'Stable', chip: 'bg-sage-tint text-[#2E4A38]', bar: 'bg-accent' },
+  critique: { label: 'Critique', chip: 'bg-red-tint text-red-deep', bar: 'bg-[#C8102E]' },
+  faible: { label: 'Faible', chip: 'bg-amber-tint text-[#6E4A22]', bar: 'bg-[#D97706]' },
+  correct: { label: 'Correct', chip: 'bg-teal-soft text-secondary', bar: 'bg-[#0F766E]' },
+  stable: { label: 'Stable', chip: 'bg-sage-tint text-[#2E4A38]', bar: 'bg-[#16A34A]' },
 }
 
 const levels: Level[] = ['critique', 'faible', 'correct', 'stable']
