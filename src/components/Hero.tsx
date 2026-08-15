@@ -1,12 +1,43 @@
 import { Icon } from './Icon'
 import { centres } from '../data/centres'
 import Reveal from './Reveal'
+import { useCountUp } from '../hooks/useCountUp'
 
 const stats = [
-  { value: '3', label: 'vies aidées par un seul don' },
-  { value: '10 min', label: 'durée du prélèvement' },
-  { value: `${centres.length}`, label: 'centres référencés au Bénin' },
+  { value: 3, suffix: '', label: 'vies aidées par un seul don' },
+  { value: 10, suffix: ' min', label: 'durée du prélèvement' },
+  { value: centres.length, suffix: '', label: 'centres référencés au Bénin' },
 ]
+
+const DROP = 'M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z'
+const DROP_BG = 'M13 0 C18 8 26 14 26 21 A13 13 0 1 1 0 21 C0 14 8 8 13 0 Z'
+
+function HeroBackground() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute -top-16 -right-16 w-80 h-80 text-red-tint/60 blur-2xl"
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute -bottom-24 -left-20 w-[26rem] h-[26rem] text-pink-tint/70 blur-2xl"
+        style={{ animationDelay: '-6s', animationDuration: '19s' }}
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute top-[10%] left-[38%] w-60 h-60 text-red-tint/40 blur-3xl"
+        style={{ animationDelay: '-11s', animationDuration: '14s' }}
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+    </div>
+  )
+}
 
 function HeroIllustration() {
   return (
@@ -18,9 +49,22 @@ function HeroIllustration() {
       className="w-full h-auto"
     >
       <title>Don de sang : trois gouttes pour trois vies sauvées</title>
-      <circle cx="530" cy="60" r="180" fill="#E3EEEC" opacity="0.7" />
-      <circle cx="80" cy="440" r="200" fill="#FDEBEE" opacity="0.6" />
-      <circle cx="320" cy="120" r="230" fill="#FBF4F1" opacity="0.5" />
+      <defs>
+        <filter id="red-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#C8102E" flood-opacity="0.3" />
+        </filter>
+      </defs>
+
+      {/* gouttes pâles — fond */}
+      <g fill="#E3EEEC" opacity="0.7">
+        <path transform="translate(530 60) scale(9)" d={DROP} />
+      </g>
+      <g fill="#FDEBEE" opacity="0.6">
+        <path transform="translate(80 440) scale(9.5)" d={DROP} />
+      </g>
+      <g fill="#FBF4F1" opacity="0.5">
+        <path transform="translate(320 120) scale(10)" d={DROP} />
+      </g>
 
       <g stroke="#C8102E" strokeWidth="6" strokeLinecap="round" opacity="0.14">
         <path d="M 56 118 v 18 M 47 127 h 18" />
@@ -50,16 +94,25 @@ function HeroIllustration() {
       <circle cx="278" cy="297" r="15" fill="#F3E7E1" />
       <circle cx="252" cy="297" r="7" fill="#FBE4E6" />
 
-      {/* tubulure */}
+      {/* tubulure + flux de gouttelettes */}
       <path
         d="M 258 300 C 300 308 330 200 436 164"
         fill="none"
         stroke="#C8102E"
-        strokeWidth="3.5"
+        strokeWidth="4"
         strokeLinecap="round"
-        opacity="0.85"
+        opacity="0.9"
       />
       <circle cx="442" cy="158" r="5" fill="#C8102E" />
+      <path
+        d="M 258 300 C 300 308 330 200 436 164"
+        fill="none"
+        stroke="#C8102E"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeDasharray="1 21"
+        className="blood-flow"
+      />
 
       {/* pied à poche */}
       <rect x="430" y="122" width="11" height="316" rx="5.5" fill="#221416" />
@@ -67,31 +120,52 @@ function HeroIllustration() {
       <path d="M 441 132 q 34 -4 30 24 l -14 0 q 2 -12 -16 -11 z" fill="#221416" />
 
       {/* poche de sang */}
-      <path
-        d="M 458 152 L 476 152 L 489 170 L 492 258 Q 492 280 470 280 Q 448 280 446 258 L 451 170 Z"
-        fill="#C8102E"
-      />
-      <path d="M 452 178 L 468 176 L 468 220 L 456 220 Z" fill="#FBE4E6" opacity="0.5" />
-      <rect x="452" y="228" width="40" height="26" rx="4" fill="#FBF4F1" opacity="0.92" />
-      <rect x="459" y="236" width="26" height="4" rx="2" fill="#C8102E" opacity="0.7" />
+      <g filter="url(#red-glow)">
+        <path
+          d="M 458 152 L 476 152 L 489 170 L 492 258 Q 492 280 470 280 Q 448 280 446 258 L 451 170 Z"
+          fill="#C8102E"
+        />
+        <path d="M 452 178 L 468 176 L 468 220 L 456 220 Z" fill="#FBE4E6" opacity="0.5" />
+        <rect x="452" y="228" width="40" height="26" rx="4" fill="#FBF4F1" opacity="0.92" />
+        <rect x="459" y="236" width="26" height="4" rx="2" fill="#C8102E" opacity="0.7" />
+      </g>
 
       {/* trois gouttes — trois vies */}
-      <g opacity="0.9">
-        <g className="animate-pulse">
-          <path transform="translate(506,330)" d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#C8102E" />
+      <g filter="url(#red-glow)" opacity="0.95">
+        <g transform="translate(506 330)">
+          <g className="drop-pulse">
+            <path d={DROP} fill="#C8102E" />
+          </g>
         </g>
       </g>
-      <g opacity="0.7">
-        <g className="animate-pulse [animation-delay:150ms]">
-          <path transform="translate(548,358) scale(0.8)" d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#C8102E" />
+      <g filter="url(#red-glow)" opacity="0.8">
+        <g transform="translate(548 358) scale(0.85)">
+          <g className="drop-pulse" style={{ animationDelay: '0.35s' }}>
+            <path d={DROP} fill="#C8102E" />
+          </g>
         </g>
       </g>
-      <g opacity="0.5">
-        <g className="animate-pulse [animation-delay:300ms]">
-          <path transform="translate(584,382) scale(0.6)" d="M0 -12 C7 2 13 8 13 15 A13 13 0 1 1 -13 15 C -13 8 -7 2 0 -12 Z" fill="#C8102E" />
+      <g filter="url(#red-glow)" opacity="0.65">
+        <g transform="translate(584 382) scale(0.68)">
+          <g className="drop-pulse" style={{ animationDelay: '0.7s' }}>
+            <path d={DROP} fill="#C8102E" />
+          </g>
         </g>
       </g>
     </svg>
+  )
+}
+
+function Stat({ value, suffix = '', label }: { value: number; suffix?: string; label: string }) {
+  const count = useCountUp(value)
+  return (
+    <div>
+      <p className="font-mono text-2xl sm:text-3xl font-semibold text-secondary whitespace-nowrap">
+        {count}
+        {suffix}
+      </p>
+      <p className="text-xs text-ink-faint leading-snug">{label}</p>
+    </div>
   )
 }
 
@@ -99,26 +173,32 @@ export default function Hero() {
   return (
     <section
       id="home-hero"
-      className="bg-cream-alt pt-16 sm:pt-24 md:pt-32 pb-14 sm:pb-20 overflow-hidden"
+      className="relative bg-cream-alt pt-16 sm:pt-24 md:pt-32 pb-14 sm:pb-20 overflow-hidden"
     >
-        <Reveal className="max-w-6xl mx-auto px-4 sm:px-7 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
-          <div>
+      <HeroBackground />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-7 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+        <div>
+          <Reveal>
             <div className="eyebrow mb-4 whitespace-nowrap">
               <Icon name="droplets" size={14} />
               Don de sang au Bénin
             </div>
+          </Reveal>
+          <Reveal delay={100}>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl mb-5 text-balance">
               Un geste de dix minutes.
               <br />
-              <em className="not-italic text-primary">
-                Trois vies sauvées.
-              </em>
+              <em className="not-italic text-primary">Trois vies sauvées.</em>
             </h1>
+          </Reveal>
+          <Reveal delay={200}>
             <p className="text-lg text-ink-soft max-w-xl leading-relaxed">
               Chaque jour au Bénin, des centaines de vies dépendent de la
               générosité de donneurs comme vous. Pas besoin d'être un héros
               pour sauver des vies, juste d'être humain.
             </p>
+          </Reveal>
+          <Reveal delay={300}>
             <div className="flex flex-wrap gap-3.5 mt-8">
               <a
                 href="#eligibilite"
@@ -135,22 +215,20 @@ export default function Hero() {
                 Trouver un centre
               </a>
             </div>
+          </Reveal>
+          <Reveal delay={400}>
             <div className="mt-10 grid grid-cols-3 max-w-md gap-4">
               {stats.map((s) => (
-                <div key={s.label}>
-                  <p className="font-mono text-2xl sm:text-3xl font-semibold text-secondary whitespace-nowrap">
-                    {s.value}
-                  </p>
-                  <p className="text-xs text-ink-faint leading-snug">{s.label}</p>
-                </div>
+                <Stat key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
               ))}
             </div>
-          </div>
+          </Reveal>
+        </div>
 
-          <div className="relative self-center">
-            <HeroIllustration />
-          </div>
+        <Reveal delay={150} className="relative self-center">
+          <HeroIllustration />
         </Reveal>
-      </section>
+      </div>
+    </section>
   )
 }

@@ -112,10 +112,52 @@
   }
 }
 
+@keyframes drop-drift {
+  from {
+    transform: translateY(0) rotate(0deg);
+  }
+  to {
+    transform: translateY(-28px) rotate(6deg);
+  }
+}
+
+@keyframes drop-pulse {
+  0% { transform: scale(1); }
+  8% { transform: scale(1.14); }
+  16% { transform: scale(1); }
+  24% { transform: scale(1.09); }
+  36% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes blood-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -44; }
+}
+
+.drop-drift {
+  animation: drop-drift 16s ease-in-out infinite alternate;
+}
+
+.drop-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drop-pulse 2.6s ease-in-out infinite;
+}
+
+.blood-flow {
+  animation: blood-flow 1.5s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .drop-drift,
+  .drop-pulse,
+  .blood-flow {
+    animation: none !important;
   }
 }

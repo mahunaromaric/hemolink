@@ -19,7 +19,6 @@ function CentersBackground() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-red-tint/60 blur-3xl" />
-      <div className="absolute -bottom-28 -left-20 w-[28rem] h-[28rem] rounded-full bg-teal-soft/60 blur-3xl" />
       <Icon
         name="droplets"
         size={320}
