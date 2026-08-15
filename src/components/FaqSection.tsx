@@ -41,14 +41,21 @@ function FaqBackground() {
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <svg
         viewBox="0 0 26 28"
-        className="drop-drift absolute -top-20 -left-16 w-72 h-72 text-red-tint/50 blur-2xl"
+        className="drop-drift absolute -top-20 -left-16 w-80 h-80 text-primary/15 blur-2xl"
       >
         <path d={DROP_BG} fill="currentColor" />
       </svg>
       <svg
         viewBox="0 0 26 28"
-        className="drop-drift absolute -bottom-16 -right-20 w-[24rem] h-[24rem] text-pink-tint/70 blur-2xl"
+        className="drop-drift absolute -bottom-16 -right-20 w-[24rem] h-[24rem] text-primary/10 blur-2xl"
         style={{ animationDelay: '-8s', animationDuration: '19s' }}
+      >
+        <path d={DROP_BG} fill="currentColor" />
+      </svg>
+      <svg
+        viewBox="0 0 26 28"
+        className="drop-drift absolute top-[22%] right-[6%] w-56 h-56 text-red-deep/10 blur-3xl"
+        style={{ animationDelay: '-13s', animationDuration: '17s' }}
       >
         <path d={DROP_BG} fill="currentColor" />
       </svg>
