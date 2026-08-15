@@ -10,8 +10,6 @@ interface StockLevel {
   level: Level
 }
 
-const THRESHOLD = 50
-
 const stock: StockLevel[] = [
   { group: 'O–', pct: 18, level: 'critique' },
   { group: 'O+', pct: 34, level: 'faible' },
@@ -73,11 +71,7 @@ export default function StockSection() {
             ))}
           </div>
 
-          <div ref={ref} className="relative flex gap-2 sm:gap-4 mt-2">
-            <div
-              aria-hidden
-              className="absolute inset-x-0 top-1/2 border-t-2 border-dashed border-ink-faint/40"
-            />
+          <div ref={ref} className="flex gap-2 sm:gap-4 mt-2">
             {stock.map((s, i) => {
               const styles = levelStyles[s.level]
               return (
@@ -108,21 +102,16 @@ export default function StockSection() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 mt-6 pt-5 border-t border-line">
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              {levels.map((l) => (
-                <span
-                  key={l}
-                  className="inline-flex items-center gap-2 font-mono text-xs text-ink-soft"
-                >
-                  <span className={`w-2.5 h-2.5 rounded-full ${levelStyles[l].bar}`} />
-                  {levelStyles[l].label}
-                </span>
-              ))}
-            </div>
-            <p className="font-mono text-[0.68rem] text-ink-faint">
-              Ligne pointillée = seuil d'alerte ({THRESHOLD} %)
-            </p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 mt-6 pt-5 border-t border-line">
+            {levels.map((l) => (
+              <span
+                key={l}
+                className="inline-flex items-center gap-2 font-mono text-xs text-ink-soft"
+              >
+                <span className={`w-2.5 h-2.5 rounded-full ${levelStyles[l].bar}`} />
+                {levelStyles[l].label}
+              </span>
+            ))}
           </div>
 
           <p className="font-mono text-[0.72rem] text-ink-faint mt-4">
