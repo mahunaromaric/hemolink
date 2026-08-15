@@ -1,5 +1,6 @@
 import { Icon } from './Icon'
 import Reveal from './Reveal'
+import { useReveal } from '../hooks/useReveal'
 
 type Level = 'critique' | 'faible' | 'correct' | 'stable'
 
@@ -8,6 +9,8 @@ interface StockLevel {
   pct: number
   level: Level
 }
+
+const THRESHOLD = 50
 
 const stock: StockLevel[] = [
   { group: 'O–', pct: 18, level: 'critique' },
@@ -31,6 +34,7 @@ const levels: Level[] = ['critique', 'faible', 'correct', 'stable']
 
 export default function StockSection() {
   const critical = stock.filter((s) => s.level === 'critique')
+  const { ref, inView } = useReveal<HTMLDivElement>()
 
   return (
     <section id="reserves" className="py-16 sm:py-22">
@@ -62,34 +66,63 @@ export default function StockSection() {
           )}
 
           <div className="flex gap-2 sm:gap-4">
-            {stock.map((s) => {
+            {stock.map((s) => (
+              <div key={s.group} className="flex-1 flex flex-col items-center gap-2">
+                <span className="font-mono text-[0.72rem] text-ink-faint">{s.pct}%</span>
+              </div>
+            ))}
+          </div>
+
+          <div ref={ref} className="relative flex gap-2 sm:gap-4 mt-2">
+            <div
+              aria-hidden
+              className="absolute inset-x-0 top-1/2 border-t-2 border-dashed border-ink-faint/40"
+            />
+            {stock.map((s, i) => {
               const styles = levelStyles[s.level]
               return (
-                <div key={s.group} className="flex-1 flex flex-col items-center gap-2">
-                  <span className="font-mono text-[0.72rem] text-ink-faint">{s.pct}%</span>
-                  <div className="w-full h-32 sm:h-44 flex items-end rounded-md bg-cream-alt/60 overflow-hidden">
-                    <div
-                      className={`w-full ${styles.bar} rounded-t-md transition-opacity duration-200 hover:opacity-80`}
-                      style={{ height: `${s.pct}%` }}
-                      title={`${s.group} : ${s.pct}% du stock cible`}
-                    />
-                  </div>
-                  <span className="font-mono text-xs font-semibold">{s.group}</span>
+                <div
+                  key={s.group}
+                  className="flex-1 h-32 sm:h-44 flex items-end rounded-md bg-cream-alt/60 overflow-hidden"
+                >
+                  <div
+                    className={`bar-fill w-full ${styles.bar} rounded-t-md`}
+                    style={{
+                      height: inView ? `${s.pct}%` : '0%',
+                      transition: inView
+                        ? `height 800ms cubic-bezier(0.22, 1, 0.36, 1) ${i * 70}ms`
+                        : 'none',
+                    }}
+                    title={`${s.group} : ${s.pct}% du stock cible`}
+                  />
                 </div>
               )
             })}
           </div>
 
-          <div className="flex flex-wrap gap-x-5 gap-y-2 mt-6 pt-5 border-t border-line">
-            {levels.map((l) => (
-              <span
-                key={l}
-                className="inline-flex items-center gap-2 font-mono text-xs text-ink-soft"
-              >
-                <span className={`w-2.5 h-2.5 rounded-full ${levelStyles[l].bar}`} />
-                {levelStyles[l].label}
-              </span>
+          <div className="flex gap-2 sm:gap-4 mt-2">
+            {stock.map((s) => (
+              <div key={s.group} className="flex-1 flex flex-col items-center gap-2">
+                <span className="font-mono text-xs font-semibold">{s.group}</span>
+              </div>
             ))}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 mt-6 pt-5 border-t border-line">
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              {levels.map((l) => (
+                <span
+                  key={l}
+                  className="inline-flex items-center gap-2 font-mono text-xs text-ink-soft"
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full ${levelStyles[l].bar}`} />
+                  {levelStyles[l].label}
+                </span>
+              ))}
+            </div>
+            <p className="font-mono text-[0.68rem] text-ink-faint">
+              Ligne pointillée = seuil d'alerte ({THRESHOLD} %)
+            </p>
           </div>
 
           <p className="font-mono text-[0.72rem] text-ink-faint mt-4">
