@@ -32,7 +32,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-2 mt-4 text-sm">
               <Icon name="phone" size={16} className="text-[#FF6B7A] shrink-0" />
-              <a href="tel:+22921320435" className="hover:text-white transition-colors">
+              <a href="tel:+22921320435" className="inline-flex items-center min-h-12 hover:text-white transition-colors">
                 +229 21 32 04 35
               </a>
             </div>
@@ -45,7 +45,7 @@ export default function Footer() {
             <ul className="space-y-1">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="block py-1 text-sm hover:text-white transition-colors">
+                  <a href={l.href} className="flex items-center min-h-12 py-1 text-sm hover:text-white transition-colors">
                     {l.label}
                   </a>
                 </li>
@@ -64,7 +64,7 @@ export default function Footer() {
                     href={l.href}
                     target={l.external ? '_blank' : undefined}
                     rel={l.external ? 'noopener noreferrer' : undefined}
-                    className="block py-1 text-sm hover:text-white transition-colors"
+                    className="flex items-center min-h-12 py-1 text-sm hover:text-white transition-colors"
                   >
                     {l.label}
                   </a>

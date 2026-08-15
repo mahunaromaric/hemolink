@@ -25,7 +25,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[74px] flex items-center justify-between gap-4">
         <a
           href="#home-hero"
-          className="flex items-center gap-2 shrink-0"
+          className="flex items-center gap-2 shrink-0 min-h-12"
           aria-label="HemoLink - retour à l'accueil"
         >
           <Icon name="droplets" size={24} className="text-primary" />
@@ -41,7 +41,7 @@ export default function Navbar() {
                 <a
                   href={link.href}
                   id={link.id}
-                  className="block whitespace-nowrap px-3 py-2 text-sm font-medium text-ink-soft hover:text-secondary hover:bg-teal-soft rounded-lg transition-colors"
+                  className="flex items-center min-h-12 whitespace-nowrap px-3 text-sm font-medium text-ink-soft hover:text-secondary hover:bg-teal-soft rounded-lg transition-colors"
                 >
                   {link.label}
                 </a>
@@ -53,14 +53,14 @@ export default function Navbar() {
         <div className="hidden xl:flex items-center gap-2">
           <a
             href="#centres"
-            className="inline-flex items-center gap-2 whitespace-nowrap px-4 py-2.5 rounded-xl border-[1.5px] border-line font-semibold text-sm hover:border-secondary transition-colors"
+            className="inline-flex items-center gap-2 whitespace-nowrap min-h-12 px-4 py-2.5 rounded-xl border-[1.5px] border-line font-semibold text-sm hover:border-secondary transition-colors"
           >
             <Icon name="map-pin" size={15} />
             Trouver un centre
           </a>
           <a
             href="#eligibilite"
-            className="inline-flex items-center gap-2 whitespace-nowrap px-4 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
+            className="inline-flex items-center gap-2 whitespace-nowrap min-h-12 px-4 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
           >
             <Icon name="heart-pulse" size={15} />
             Tester mon éligibilité
@@ -97,7 +97,7 @@ export default function Navbar() {
           <div className="flex flex-col gap-3 p-4 border-t border-line">
             <a
               href="#eligibilite"
-              className="text-center px-5 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep"
+              className="text-center min-h-12 flex items-center justify-center px-5 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep"
               onClick={() => setOpen(false)}
             >
               Tester mon éligibilité

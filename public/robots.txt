@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hemolink-nu.vercel.app/sitemap.xml

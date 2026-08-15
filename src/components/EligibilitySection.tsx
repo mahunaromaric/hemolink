@@ -191,7 +191,7 @@ export default function EligibilitySection() {
                 {(['M', 'F'] as Gender[]).map((g) => (
                   <label
                     key={g}
-                    className={`flex items-center gap-2 border-[1.5px] rounded-full px-4 py-2 text-sm cursor-pointer transition-colors ${
+                    className={`flex items-center min-h-12 gap-2 border-[1.5px] rounded-full px-4 py-2 text-sm cursor-pointer transition-colors ${
                       gender === g
                         ? 'border-secondary bg-teal-soft'
                         : 'border-line'
@@ -252,7 +252,7 @@ export default function EligibilitySection() {
 
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
+              className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
             >
               <Icon name="search" size={15} />
               Vérifier mon éligibilité

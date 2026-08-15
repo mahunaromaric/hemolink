@@ -85,14 +85,14 @@ function CentreCard({ centre }: { centre: Centre }) {
             href={`https://www.google.com/maps/dir/?api=1&destination=${centre.lat},${centre.lng}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 flex-1 px-3 py-1.5 rounded-xl border border-secondary/30 text-secondary font-semibold text-sm hover:bg-teal-soft transition-colors"
+            className="inline-flex items-center justify-center gap-2 flex-1 min-h-12 px-3 py-1.5 rounded-xl border border-secondary/30 text-secondary font-semibold text-sm hover:bg-teal-soft transition-colors"
           >
             <Icon name="map-pin" size={14} />
             Itinéraire
           </a>
           <a
             href={`tel:${centre.phone}`}
-            className="inline-flex items-center justify-center gap-2 flex-1 px-3 py-1.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
+            className="inline-flex items-center justify-center gap-2 flex-1 min-h-12 px-3 py-1.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
           >
             <Icon name="phone" size={14} />
             Appeler
@@ -172,7 +172,7 @@ export default function CentersSection() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Rechercher un centre ou une ville"
               aria-label="Rechercher un centre ou une ville"
-              className="w-full rounded-xl bg-white border border-line py-3 pl-11 pr-4 text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+              className="w-full min-h-12 rounded-xl bg-white border border-line py-3 pl-11 pr-4 text-sm placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
             />
           </div>
 
@@ -187,7 +187,7 @@ export default function CentersSection() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 aria-label="Filtrer par ville"
-                className="rounded-full bg-white border border-line pl-9 pr-4 py-2 text-sm text-ink-soft focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                className="min-h-12 rounded-full bg-white border border-line pl-9 pr-4 py-2 text-sm text-ink-soft focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
               >
                 <option value="all">Toutes les villes</option>
                 {cities.map((c) => (
@@ -207,7 +207,7 @@ export default function CentersSection() {
                     type="button"
                     onClick={() => toggleDonType(t)}
                     aria-pressed={active}
-                    className={`inline-flex items-center gap-1.5 font-mono text-xs px-3 py-2 rounded-full border transition-colors ${
+                    className={`inline-flex items-center min-h-12 gap-1.5 font-mono text-xs px-3 py-2 rounded-full border transition-colors ${
                       active
                         ? 'bg-secondary text-white border-secondary'
                         : 'bg-white text-ink-soft border-line hover:border-secondary/50'
@@ -228,7 +228,7 @@ export default function CentersSection() {
               type="button"
               onClick={() => setOpenOnly((v) => !v)}
               aria-pressed={openOnly}
-              className="flex items-center gap-2.5"
+              className="flex items-center min-h-12 gap-2.5"
             >
               <span className="text-sm text-ink-soft">Ouverts maintenant</span>
               <span
@@ -254,7 +254,7 @@ export default function CentersSection() {
               type="button"
               onClick={resetFilters}
               disabled={!hasActiveFilters}
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-ink-faint hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center min-h-12 gap-1.5 font-mono text-xs text-ink-faint hover:text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Icon name="rotate-ccw" size={14} />
               Tout réinitialiser

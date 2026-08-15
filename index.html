@@ -3,12 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#C8102E" />
     <meta
       name="description"
       content="HemoLink — La référence pour le don de sang au Bénin. Testez votre éligibilité, découvrez les centres proches de vous et l'état des réserves."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="HemoLink" />
+    <meta property="og:url" content="https://hemolink-nu.vercel.app/" />
+    <meta property="og:title" content="HemoLink | Le don de sang au Bénin" />
+    <meta
+      property="og:description"
+      content="Testez votre éligibilité au don de sang, trouvez un centre proche de vous au Bénin et suivez l'état des réserves."
+    />
+    <meta property="og:image" content="https://hemolink-nu.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HemoLink — Un geste de dix minutes, trois vies sauvées." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HemoLink | Le don de sang au Bénin" />
+    <meta
+      name="twitter:description"
+      content="Testez votre éligibilité au don de sang, trouvez un centre proche de vous au Bénin et suivez l'état des réserves."
+    />
+    <meta name="twitter:image" content="https://hemolink-nu.vercel.app/og-image.png" />
     <title>HemoLink | Le don de sang au Bénin</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://hemolink-nu.vercel.app/#website",
+            "url": "https://hemolink-nu.vercel.app/",
+            "name": "HemoLink",
+            "inLanguage": "fr-FR",
+            "description": "Testez votre éligibilité au don de sang et trouvez un centre proche de vous au Bénin."
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://hemolink-nu.vercel.app/#organization",
+            "url": "https://hemolink-nu.vercel.app/",
+            "name": "HemoLink",
+            "logo": "https://hemolink-nu.vercel.app/favicon.svg",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+22921320435",
+              "contactType": "customer service",
+              "areaServed": "BJ",
+              "availableLanguage": "fr"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
