@@ -1,61 +1,110 @@
+import { Icon } from './Icon'
+
+type Level = 'critique' | 'faible' | 'correct' | 'stable'
+
 interface StockLevel {
   group: string
   pct: number
-  status: string
-  barClass: string
-  chipClass: string
-  statusClass: string
-  bgClass: string
+  level: Level
 }
 
 const stock: StockLevel[] = [
-  { group: 'O+', pct: 15, status: 'Critique', barClass: 'bg-red-500', chipClass: 'bg-red-100 text-red-600', statusClass: 'text-red-600', bgClass: 'bg-red-50 border-red-100' },
-  { group: 'O-', pct: 10, status: 'Urgence', barClass: 'bg-red-500', chipClass: 'bg-red-100 text-red-600', statusClass: 'text-red-600', bgClass: 'bg-red-50 border-red-100' },
-  { group: 'A+', pct: 65, status: 'Stable', barClass: 'bg-blue-500', chipClass: 'bg-blue-100 text-blue-600', statusClass: 'text-blue-600', bgClass: 'bg-blue-50 border-blue-100' },
-  { group: 'B+', pct: 35, status: 'Modéré', barClass: 'bg-orange-500', chipClass: 'bg-orange-100 text-orange-600', statusClass: 'text-orange-600', bgClass: 'bg-orange-50 border-orange-100' },
-  { group: 'A-', pct: 55, status: 'Stable', barClass: 'bg-blue-500', chipClass: 'bg-blue-100 text-blue-600', statusClass: 'text-blue-600', bgClass: 'bg-blue-50 border-blue-100' },
-  { group: 'B-', pct: 25, status: 'Modéré', barClass: 'bg-orange-500', chipClass: 'bg-orange-100 text-orange-600', statusClass: 'text-orange-600', bgClass: 'bg-orange-50 border-orange-100' },
-  { group: 'AB+', pct: 40, status: 'Modéré', barClass: 'bg-orange-500', chipClass: 'bg-orange-100 text-orange-600', statusClass: 'text-orange-600', bgClass: 'bg-orange-50 border-orange-100' },
-  { group: 'AB-', pct: 20, status: 'Critique', barClass: 'bg-red-500', chipClass: 'bg-red-100 text-red-600', statusClass: 'text-red-600', bgClass: 'bg-red-50 border-red-100' },
+  { group: 'O–', pct: 18, level: 'critique' },
+  { group: 'O+', pct: 34, level: 'faible' },
+  { group: 'A+', pct: 52, level: 'correct' },
+  { group: 'A–', pct: 40, level: 'faible' },
+  { group: 'B+', pct: 61, level: 'correct' },
+  { group: 'B–', pct: 22, level: 'critique' },
+  { group: 'AB+', pct: 75, level: 'stable' },
+  { group: 'AB–', pct: 45, level: 'faible' },
 ]
 
+const levelStyles: Record<Level, { label: string; chip: string; bar: string }> = {
+  critique: { label: 'Critique', chip: 'bg-red-tint text-red-deep', bar: 'bg-primary' },
+  faible: { label: 'Faible', chip: 'bg-amber-tint text-[#6E4A22]', bar: 'bg-amber' },
+  correct: { label: 'Correct', chip: 'bg-teal-soft text-secondary', bar: 'bg-secondary' },
+  stable: { label: 'Stable', chip: 'bg-sage-tint text-[#2E4A38]', bar: 'bg-accent' },
+}
+
+const levels: Level[] = ['critique', 'faible', 'correct', 'stable']
+
 export default function StockSection() {
+  const critical = stock.filter((s) => s.level === 'critique')
+
   return (
-    <section className="py-12 sm:py-16 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-            État des réserves au Bénin
+    <section id="reserves" className="py-16 sm:py-22">
+      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+        <div className="max-w-[640px] mb-10">
+          <div className="eyebrow mb-4">
+            <Icon name="trendingUp" size={14} />
+            État des réserves
+          </div>
+          <h2 className="text-3xl sm:text-4xl mb-4">
+            Certains groupes manquent davantage que d'autres.
           </h2>
-          <p className="text-sm sm:text-base text-gray-500">
-            Mise à jour en temps réel par le CNTS
+          <p className="text-[1.02rem] text-ink-soft">
+            Niveau des stocks par groupe sanguin — chiffres indicatifs, l'ANTS
+            ne publie pas de données en temps réel.
           </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 md:gap-8">
-          {stock.map((s) => (
-            <div
-              key={s.group}
-              className={`${s.bgClass} p-4 sm:p-6 rounded-3xl border-2 flex flex-col items-center text-center`}
-            >
-              <div
-                className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${s.chipClass} flex items-center justify-center font-bold mb-4 text-xs sm:text-base`}
-              >
-                {s.group}
-              </div>
-              <div className="h-1.5 sm:h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                <div className={`h-full ${s.barClass} rounded-full`} style={{ width: `${s.pct}%` }} />
-              </div>
-              <p className={`text-[10px] sm:text-xs mt-3 font-bold uppercase ${s.statusClass}`}>
-                {s.status}
+
+        <div className="bg-white border border-line rounded-2xl shadow-card p-5 sm:p-7">
+          {critical.length > 0 && (
+            <div className="mb-6 flex items-start gap-3 bg-red-tint text-red-deep rounded-xl px-4 py-3 text-sm">
+              <Icon name="alert-triangle" size={18} className="shrink-0 mt-0.5" />
+              <p>
+                <strong>{critical.map((s) => s.group).join(', ')}</strong>{' '}
+                en niveau critique : besoin urgent de nouveaux donneurs
+                compatibles.
               </p>
             </div>
-          ))}
+          )}
+
+          <div className="flex gap-2 sm:gap-4">
+            {stock.map((s) => {
+              const styles = levelStyles[s.level]
+              return (
+                <div key={s.group} className="flex-1 flex flex-col items-center gap-2">
+                  <span className="font-mono text-[0.72rem] text-ink-faint">{s.pct}%</span>
+                  <div className="w-full h-32 sm:h-44 flex items-end rounded-md bg-cream-alt/60 overflow-hidden">
+                    <div
+                      className={`w-full ${styles.bar} rounded-t-md transition-opacity duration-200 hover:opacity-80`}
+                      style={{ height: `${s.pct}%` }}
+                      title={`${s.group} : ${s.pct}% du stock cible`}
+                    />
+                  </div>
+                  <span className="font-mono text-xs font-semibold">{s.group}</span>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="flex flex-wrap gap-x-5 gap-y-2 mt-6 pt-5 border-t border-line">
+            {levels.map((l) => (
+              <span
+                key={l}
+                className="inline-flex items-center gap-2 font-mono text-xs text-ink-soft"
+              >
+                <span className={`w-2.5 h-2.5 rounded-full ${levelStyles[l].bar}`} />
+                {levelStyles[l].label}
+              </span>
+            ))}
+          </div>
+
+          <p className="font-mono text-[0.72rem] text-ink-faint mt-4">
+            Chiffres indicatifs à des fins de démonstration. Voir les
+            statistiques de l'ANTS sur{' '}
+            <a
+              href="https://ants.bj"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-primary transition-colors"
+            >
+              ants.bj
+            </a>
+            .
+          </p>
         </div>
-        <p className="mt-8 text-center text-xs text-gray-400 max-w-2xl mx-auto">
-          Les réserves en sang O et en plaquettes sont les plus critiques. Votre
-          don, quel que soit votre groupe, est précieux : chaque groupe a des
-          patients qui l'attendent spécifiquement.
-        </p>
       </div>
     </section>
   )

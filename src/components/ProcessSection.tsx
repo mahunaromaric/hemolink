@@ -1,81 +1,90 @@
 import { Icon } from './Icon'
 
 const steps = [
-  'Accueil et remplissage d\u2019un questionnaire médical.',
-  'Entretien confidentiel avec un professionnel de santé.',
-  'Le don proprement dit (environ 450 ml).',
-  'Repos et collation gourmande bien méritée.',
+  {
+    title: 'Accueil',
+    text: 'Remplissage d\u2019un questionnaire médical.',
+  },
+  {
+    title: 'Entretien médical',
+    text: 'Confidentiel avec un professionnel de santé.',
+  },
+  {
+    title: 'Le don',
+    text: 'Proprement dit (environ 450 ml).',
+  },
+  {
+    title: 'Repos & collation',
+    text: 'Une collation gourmande bien méritée.',
+  },
 ]
 
 const preparation = [
   {
-    icon: 'coffee',
-    iconWrap: 'bg-primary',
     title: 'Avant le don',
-    text: 'Hydratez-vous bien (500 ml d\u2019eau), mangez léger et évitez l\u2019alcool les 24h précédentes. N\u2019oubliez pas votre pièce d\u2019identité.',
+    text: 'Hydratez-vous bien (500 ml d\u2019eau), mangez léger et évitez l\u2019alcool les 24 h précédentes. N\u2019oubliez pas votre pièce d\u2019identité.',
+    icon: 'glass-water',
   },
   {
-    icon: 'heart-pulse',
-    iconWrap: 'bg-secondary',
     title: 'Pendant le don',
     text: 'Détendez-vous ! Le prélèvement dure 10 min. Vous êtes sous la surveillance de nos infirmiers bienveillants.',
+    icon: 'heart-pulse',
   },
   {
-    icon: 'cookie',
-    iconWrap: 'bg-green-500',
     title: 'Après le don',
     text: 'Une collation vous est offerte. Reposez-vous 20 minutes avant de repartir. Bravo, vous avez sauvé des vies !',
+    icon: 'utensils',
   },
 ]
 
 export default function ProcessSection() {
   return (
-    <section className="py-12 sm:py-16 md:py-24 bg-slatedark text-white overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 blur-[120px] rounded-full -mr-48 -mt-48" aria-hidden="true" />
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 md:gap-20 items-center">
-          <div className="order-2 lg:order-1">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {preparation.map((p) => (
-                <div
-                  key={p.title}
-                  className={`bg-white/5 border border-white/10 p-6 sm:p-8 rounded-3xl ${
-                    p.title === 'Après le don' ? 'md:col-span-2' : ''
-                  }`}
-                >
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 ${p.iconWrap} rounded-2xl flex items-center justify-center mb-6`}>
-                    <Icon name={p.icon} size={24} />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-3">{p.title}</h3>
-                  <p className="text-white/60 text-xs sm:text-sm leading-relaxed">{p.text}</p>
+    <section id="deroulement" className="py-16 sm:py-22 bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {preparation.map((p, i) => (
+              <article
+                key={p.title}
+                className={`bg-white border border-line shadow-[0_12px_28px_-18px_rgba(34,20,22,0.4)] rounded-2xl p-5 ${i === 2 ? 'sm:col-span-2' : ''}`}
+              >
+                <div className="w-9 h-9 rounded-lg bg-teal-soft text-secondary flex items-center justify-center mb-3">
+                  <Icon name={p.icon} size={18} />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-base font-semibold text-slatedark mb-1">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-ink-soft leading-relaxed">{p.text}</p>
+              </article>
+            ))}
           </div>
 
-          <div className="order-1 lg:order-2 text-center lg:text-left">
-            <span className="text-primary font-bold uppercase tracking-widest text-sm mb-4 block">
-              Guide Pratique
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 leading-tight">
-              Comment se passe un don chez HemoLink ?
-            </h2>
-            <div className="space-y-6 text-lg text-white/80">
+          <div>
+            <div className="mb-8">
+              <div className="eyebrow mb-4">
+                <Icon name="list" size={14} />
+                Le jour du don
+              </div>
+              <h2 className="text-3xl sm:text-4xl">
+                Comment se passe un don ?
+              </h2>
+            </div>
+            <ol>
               {steps.map((step, i) => (
-                <div key={i} className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-full border-2 border-primary flex items-center justify-center shrink-0 text-sm font-bold">
-                    {i + 1}
-                  </div>
-                  <p>{step}</p>
+              <li
+                key={step.title}
+                className="flex items-center gap-4 py-4"
+              >
+                <span className="w-8 h-8 shrink-0 rounded-full border-2 border-accent text-accent flex items-center justify-center font-mono text-sm font-semibold">
+                  {i + 1}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-base mb-0.5">{step.title}</h3>
+                  <p className="text-sm text-ink-soft leading-relaxed">{step.text}</p>
                 </div>
-              ))}
-            </div>
-            <div className="mt-8 inline-flex items-center gap-3 bg-white/10 rounded-2xl px-5 py-3">
-              <Icon name="clock" size={18} className="text-primary" />
-              <p className="text-sm font-semibold text-white/90">
-                Durée totale : environ 45 minutes
-              </p>
-            </div>
+              </li>
+            ))}
+          </ol>
           </div>
         </div>
       </div>

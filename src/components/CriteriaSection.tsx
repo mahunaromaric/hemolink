@@ -2,58 +2,71 @@ import { Icon } from './Icon'
 
 const criteria = [
   {
-    icon: 'calendar',
-    iconClass: 'text-primary',
-    gradClass: 'from-primary to-accent',
-    title: '18 – 65 ans',
     text: 'Il faut être majeur pour donner. Jusqu\u2019à 65 ans révolus, vous êtes un donneur potentiel.',
+    value: '18–65 ans',
   },
   {
-    icon: 'scale',
-    iconClass: 'text-secondary',
-    gradClass: 'from-secondary to-blue-400',
-    title: 'Minimum 50 kg',
     text: 'Ce seuil garantit votre sécurité et le volume suffisant pour aider les patients receveurs.',
+    value: '50 kg',
   },
   {
-    icon: 'clock',
-    iconClass: 'text-green-500',
-    gradClass: 'from-green-500 to-emerald-400',
-    title: 'Délai respecté',
     text: 'Attendre 3 mois (hommes) ou 4 mois (femmes) entre deux dons de sang total.',
+    value: '3–4 mois',
   },
 ]
 
 export default function CriteriaSection() {
   return (
-    <section id="criteria" className="py-12 sm:py-16 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <span className="text-secondary font-bold uppercase tracking-widest text-xs sm:text-sm mb-4 block">
+    <section id="criteria" className="py-16 sm:py-22 bg-gradient-to-b from-white to-cream-alt">
+      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+        <div className="max-w-[640px] mb-8">
+          <div className="eyebrow mb-4">
+            <Icon name="check-circle" size={14} />
             Critères de base
-          </span>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-6 text-slatedark">
-            Qui peut donner ?
-          </h2>
-          <p className="text-base sm:text-lg text-slatedark/60">
-            La majorité des adultes peuvent sauver des vies. Vérifiez ces 3
+          </div>
+          <h2 className="text-3xl sm:text-4xl mb-4">Qui peut donner ?</h2>
+          <p className="text-[1.02rem] text-ink-soft">
+            La majorité des adultes peuvent sauver des vies. Vérifiez ces
             points essentiels.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {criteria.map((c) => (
-            <div
-              key={c.title}
-              className="relative p-6 sm:p-8 rounded-[32px] overflow-hidden group bg-white"
+
+        <div className="relative max-w-3xl">
+          <div
+            aria-hidden="true"
+            className="absolute left-[9px] top-3 bottom-3 w-[2px] bg-secondary/30"
+          />
+          <ol className="space-y-6">
+            {criteria.map((c, i) => (
+              <li key={c.value} className="group relative pl-12">
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 top-1 w-5 h-5 rounded-full border-2 border-line bg-cream-alt transition-all duration-300 group-hover:border-accent group-hover:bg-accent"
+                />
+                <div>
+                  <div className="flex items-baseline gap-3 mb-1">
+                    <p className="font-mono text-xs font-semibold text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </p>
+                    <p className="font-mono text-xl sm:text-2xl font-semibold text-secondary">
+                      {c.value}
+                    </p>
+                  </div>
+                  <p className="text-sm text-ink-soft leading-relaxed">{c.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-7 pl-12">
+            <a
+              href="#eligibilite"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
             >
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${c.gradClass} opacity-5 group-hover:opacity-10 transition-opacity`}
-              />
-              <Icon name={c.icon} size={36} className={`${c.iconClass} mb-6`} />
-              <h3 className="text-lg sm:text-xl font-bold mb-3">{c.title}</h3>
-              <p className="text-gray-500 text-xs sm:text-sm">{c.text}</p>
-            </div>
-          ))}
+              <Icon name="clipboardCheck" size={16} />
+              Je teste mon éligibilité
+            </a>
+          </div>
         </div>
       </div>
     </section>

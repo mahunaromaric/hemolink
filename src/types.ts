@@ -1,16 +1,25 @@
-export type DonType = 'sang total' | 'plasma' | 'plaquettes'
+export type DonType = 'total' | 'plasma' | 'plaquettes'
 
 export interface Centre {
   id: number
   name: string
-  nature: string
+  /** type de structure : Siège, Hôpital, Antenne... */
+  type: string
   city: string
   address: string
-  /** heures d'ouverture par jour de la semaine, index 0 = dimanche */
-  hours: Record<number, { open: string; close: string } | null>
-  contact: string
-  email?: string
-  types: DonType[]
+  phone: string
+  donTypes: DonType[]
   /** modalités d'accueil */
-  mode: 'Sans RDV' | 'Sur RDV conseillé' | 'Sur RDV'
+  rdv: string
+  /** libellé horaires affiché */
+  hoursText: string
+  /** jours d'ouverture, index 1 = lundi ... 6 = samedi */
+  days: number[]
+  /** heure d'ouverture en décimal (ex. 7.5 = 07h30) */
+  open: number
+  /** heure de fermeture en décimal (ex. 17.5 = 17h30) */
+  close: number
+  /** coordonnées GPS approximatives */
+  lat: number
+  lng: number
 }

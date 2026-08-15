@@ -1,65 +1,82 @@
 import { Icon } from './Icon'
 
+const navLinks = [
+  { href: '#pourquoi', label: 'Pourquoi donner' },
+  { href: '#eligibilite', label: 'Suis-je éligible' },
+  { href: '#deroulement', label: 'Le déroulement' },
+  { href: '#centres', label: 'Centres' },
+]
+
+const resourceLinks = [
+  { href: '#reserves', label: 'État des réserves' },
+  { href: '#impact-stories', label: 'En chiffres' },
+  { href: 'https://ants.bj', label: 'ANTS (source officielle)', external: true },
+  { href: '#faq', label: 'Questions fréquentes' },
+]
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 py-20 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <Icon name="droplets" size={30} className="text-primary" />
-              <span className="text-2xl font-bold tracking-tight">
-                Hemo<span className="text-primary">Link</span>
+    <footer className="bg-secondary text-teal-soft pt-12 pb-7">
+      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-9">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Icon name="droplets" size={20} className="text-[#FF6B7A]" />
+              <span className="text-xl font-bold text-white">
+                Hemo<span className="text-[#FF6B7A]">Link</span>
               </span>
             </div>
-            <p className="text-gray-500 max-w-sm mb-6">
-              Une initiative citoyenne pour faciliter l'accès à l'information
-              sur le don de sang au Bénin. Chaque goutte compte.
+            <p className="text-sm max-w-[32ch]">
+              Informer, rassurer, orienter — pour que donner son sang devienne
+              un geste simple et accessible.
             </p>
-            <div className="flex gap-4">
-              {['facebook', 'twitter', 'instagram'].map((s) => (
-                <a
-                  key={s}
-                  href="#home-hero"
-                  aria-label={s}
-                  className="w-10 h-10 rounded-full bg-white border flex items-center justify-center hover:text-primary hover:border-primary transition-all"
-                >
-                  <Icon name={s} size={18} />
-                </a>
-              ))}
+            <div className="flex items-center gap-2 mt-4 text-sm">
+              <Icon name="phone" size={16} className="text-[#FF6B7A] shrink-0" />
+              <a href="tel:+22921320435" className="hover:text-white transition-colors">
+                +229 21 32 04 35
+              </a>
             </div>
           </div>
 
           <div>
-            <h5 className="font-bold mb-6">Navigation</h5>
-            <ul className="space-y-4 text-gray-500 text-sm">
-              <li><a href="#home-hero" className="hover:text-primary transition-colors">Accueil</a></li>
-              <li><a href="#test" className="hover:text-primary transition-colors">Test d'éligibilité</a></li>
-              <li><a href="#centres" className="hover:text-primary transition-colors">Nos centres</a></li>
-              <li><a href="#faq" className="hover:text-primary transition-colors">Questions / Réponses</a></li>
+            <h4 className="text-white text-[0.85rem] uppercase tracking-[0.08em] mb-3.5 font-sans">
+              Navigation
+            </h4>
+            <ul className="space-y-1">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="block py-1 text-sm hover:text-white transition-colors">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h5 className="font-bold mb-6">Contact</h5>
-            <ul className="space-y-4 text-gray-500 text-sm">
-              <li className="flex items-center gap-2">
-                <Icon name="phone" size={16} />
-                <a href="tel:+22921301431" className="hover:text-primary transition-colors">+229 21 30 14 31</a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Icon name="map-pin" size={16} />
-                <span>Cotonou, Bénin</span>
-              </li>
+            <h4 className="text-white text-[0.85rem] uppercase tracking-[0.08em] mb-3.5 font-sans">
+              Ressources
+            </h4>
+            <ul className="space-y-1">
+              {resourceLinks.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    target={l.external ? '_blank' : undefined}
+                    rel={l.external ? 'noopener noreferrer' : undefined}
+                    className="block py-1 text-sm hover:text-white transition-colors"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
             </ul>
-            <p className="mt-6 text-xs text-gray-400 italic">
-              * Le test d'éligibilité en ligne est indicatif. Seul un entretien
-              médical professionnel peut confirmer l'aptitude au don.
-            </p>
           </div>
         </div>
-        <div className="pt-8 border-t border-gray-200 text-center text-xs text-gray-400">
-          © {new Date().getFullYear()} HemoLink — Fait avec <span aria-hidden="true">❤</span> pour le Bénin.
+
+        <div className="border-t border-white/15 pt-5 flex flex-wrap justify-between gap-5 text-xs text-teal-soft/70">
+          <span>© 2026 HemoLink — Tous droits réservés.</span>
+          <span>Don de sang au Bénin.</span>
         </div>
       </div>
     </footer>

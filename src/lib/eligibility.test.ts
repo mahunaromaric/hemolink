@@ -3,6 +3,7 @@ import {
   addMonths,
   checkEligibility,
   formatDateFr,
+  type Gender,
 } from './eligibility'
 
 const today = new Date('2026-08-14T10:00:00')
@@ -75,6 +76,74 @@ describe('checkEligibility', () => {
 
   it('champs manquants → non éligible avec message explicite', () => {
     const res = checkEligibility({ age: null, weightKg: 70, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('âge NaN → non éligible (valeurs invalides)', () => {
+    const res = checkEligibility({ age: NaN, weightKg: 70, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('poids Infinity → non éligible', () => {
+    const res = checkEligibility({ age: 30, weightKg: Infinity, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('âge -Infinity → non éligible', () => {
+    const res = checkEligibility({ age: -Infinity, weightKg: 70, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('âge 0 → non éligible (valeur invalide)', () => {
+    const res = checkEligibility({ age: 0, weightKg: 70, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('poids négatif → non éligible', () => {
+    const res = checkEligibility({ age: 30, weightKg: -5, gender: 'M', lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('poids très élevé (300 kg) → éligible (pas de borne haute dans le cœur)', () => {
+    expect(
+      checkEligibility({ age: 30, weightKg: 300, gender: 'M', lastDonationDate: null }, today).status,
+    ).toBe('eligible')
+  })
+
+  it('gender inconnu → non éligible', () => {
+    const res = checkEligibility({ age: 30, weightKg: 70, gender: 'X' as Gender, lastDonationDate: null }, today)
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('date de dernier don future → non éligible', () => {
+    const res = checkEligibility(
+      { age: 30, weightKg: 70, gender: 'M', lastDonationDate: new Date('2099-01-01').toISOString() },
+      today,
+    )
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('chaîne de date invalide → non éligible', () => {
+    const res = checkEligibility(
+      { age: 30, weightKg: 70, gender: 'M', lastDonationDate: 'pas-une-date' },
+      today,
+    )
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('date impossible « 2023-02-30 » → non éligible', () => {
+    const res = checkEligibility(
+      { age: 30, weightKg: 70, gender: 'M', lastDonationDate: '2023-02-30' },
+      today,
+    )
+    expect(res.status).toBe('ineligible')
+  })
+
+  it('date non-string (ex. nombre) → non éligible', () => {
+    const res = checkEligibility(
+      { age: 30, weightKg: 70, gender: 'M', lastDonationDate: 42 as unknown as string },
+      today,
+    )
     expect(res.status).toBe('ineligible')
   })
 })

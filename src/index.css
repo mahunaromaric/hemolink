@@ -1,63 +1,113 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin-full-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-600-normal.woff2') format('woff2');
+}
+
 @theme {
-  --color-primary: #E74C3C;
-  --color-secondary: #4A90E2;
-  --color-accent: #FF6B6B;
-  --color-softblue: #F0F7FF;
-  --color-slatedark: #1E293B;
-  --font-display: 'Outfit', sans-serif;
+  --color-primary: #C8102E;
+  --color-red-deep: #8E0F22;
+  --color-red-tint: #FBE4E6;
+  --color-pink-tint: #FDEBEE;
+  --color-secondary: #12414A;
+  --color-teal-soft: #E3EEEC;
+  --color-accent: #4C7A5B;
+  --color-sage-tint: #E4EFE6;
+  --color-amber: #B8763E;
+  --color-amber-tint: #F5E7D8;
+  --color-cream: #FBF4F1;
+  --color-cream-alt: #F3E7E1;
+  --color-softblue: #E3EEEC;
+  --color-slatedark: #221416;
+  --color-ink-soft: #6B5652;
+  --color-ink-faint: #9C8985;
+  --color-line: #E7D9D2;
+  --font-display: 'Fraunces', serif;
   --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
   }
   body {
     font-family: var(--font-sans);
     color: var(--color-slatedark);
-    background: #fff;
+    background: var(--color-cream);
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--color-slatedark);
   }
   :focus-visible {
-    outline: 3px solid var(--color-primary);
-    outline-offset: 2px;
-    border-radius: 6px;
+    outline: 3px solid var(--color-secondary);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 }
 
 @layer utilities {
-  .custom-shadow {
-    box-shadow: 0 10px 30px -5px rgba(231, 76, 60, 0.1);
+  .shadow-card {
+    box-shadow: 0 20px 40px -24px rgba(34, 20, 22, 0.35);
   }
-  .card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    font-weight: 600;
   }
-  .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px -10px rgba(74, 144, 226, 0.15);
+  .eyebrow::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: var(--color-primary);
+    display: inline-block;
   }
-  .gradient-bg {
-    background: linear-gradient(135deg, #FDF2F2 0%, #EBF5FF 100%);
-  }
-  .glass-nav {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-  }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 10px;
 }

@@ -16,7 +16,7 @@ Landing page d'information sur le don de sang, pensée pour les **futurs donneur
 | **Vitest** | Tests unitaires de l'algorithme d'éligibilité |
 | **Oxlint** | Lint |
 
-Aucun backend : toutes les données (centres, réserves, FAQ) sont des **fichiers statiques locaux** typés.
+Aucun backend : toutes les données (centres, réserves, FAQ, chiffres) sont des **fichiers statiques locaux** typés.
 
 ## Démarrage
 
@@ -28,50 +28,57 @@ npm run test     # tests de l'algorithme
 npm run lint     # lint
 ```
 
-## Les 8 sections du brief (toutes couvertes)
+## Sections de la page
 
 | Réf. | Section | Implémentation |
 |---|---|---|
 | C1 | Pourquoi donner | `ImpactSection` — 3 cartes chiffrées (3 vies, solidarité, urgence) |
 | C2 | Qui peut donner | `CriteriaSection` — 3 critères synthétiques → renvoie au simulateur |
-| C3 | Test d'éligibilité | `EligibilitySection` — simulateur conforme à l'annexe |
-| C4 | Déroulement du don | `ProcessSection` — 4 étapes + durée totale (45 min) |
+| C3 | Test d'éligibilité | `EligibilitySection` — simulateur conforme, entrées durcies |
+| C4 | Déroulement du don | `ProcessSection` — 4 étapes + durée totale |
 | C5 | Préparation au don | fusionnée dans `ProcessSection` — avant / pendant / après |
-| C6 | Où donner | `CentersSection` — **11 centres** sur 9 villes, recherche + filtres |
-| C7 | État des réserves | `StockSection` — 8 groupes sanguins avec statuts |
-| C8 | FAQ & Idées reçues | `FaqSection` (accordéon) + `MythsSection` (mythes vs réalités) |
+| C6 | Où donner | `CentersSection` — **8 structures réelles ANTS** (siège + STS/PTS), recherche + filtres |
+| C7 | État des réserves | `StockSection` — 8 groupes sanguins avec statuts indicatifs |
+| C8 | FAQ | `FaqSection` (accordéon) en 2 colonnes |
+| — | En chiffres | `TestimonialsSection` — statistiques réelles ANTS 2025 |
 
-Fusion assumée C4 + C5 (timeline avant/pendant/après) comme le permet le brief.
-
-## Algorithme d'éligibilité (annexe)
+## Algorithme d'éligibilité
 
 `src/lib/eligibility.ts` — fonction pure `checkEligibility` testée unitairement :
 
 - **Âge** : 18 – 65 ans révolus ;
 - **Poids** : ≥ 50 kg ;
 - **Délai post-don** : 3 mois (homme), 4 mois (femme) ;
-- **Cas gérés** : aucun don antérieur → condition remplie ; délai non écoulé → affichage de la **date exacte** de prochaine éligibilité ; âge ou poids hors critères → **critère bloquant explicitement nommé**.
+- **Cas gérés** : aucun don antérieur → condition remplie ; délai non écoulé → affichage de la **date exacte** de prochaine éligibilité ; âge ou poids hors critères → **critère bloquant explicitement nommé** ;
+- **Durcissement anti-entrées adverses** : rejet de `NaN` / `±Infinity` / valeurs ≤ 0, whitelist du sexe (`M`/`F`), rejet des dates invalides, futures ou calendaires impossibles (« 2023-02-30 »). **23 tests** couvrent la nominale et les cas adverses.
 
-La mention *« Seul un entretien médical professionnel peut confirmer l'aptitude au don »* figure à la fois sous le simulateur et dans le footer.
+La mention *« Seul un entretien médical professionnel peut confirmer l'aptitude au don »* figure sous le simulateur.
 
 ## Fonctionnalités & états
 
 - **Simulateur** : validation en temps réel (âge 1–120, poids ≤ 300 kg, date future interdite), résultats éligible / non éligible / différé avec `aria-live`.
-- **Répertoire** : recherche texte + filtres (ville, type de don, **ouvert maintenant** calculé en direct selon les horaires du jour). États gérés : **chargement** (squelettes), **aucun résultat** (avec réinitialisation), **erreur** (avec bouton réessayer).
+- **Répertoire** : recherche texte + filtres (ville, type de don, **ouvert maintenant** calculé en direct selon les horaires du jour). État géré : **aucun résultat** (avec bouton « Tout réinitialiser »).
 - **Accessibilité** : navigation clavier fluide, focus visible explicite (`:focus-visible`), accordéon FAQ en boutons avec `aria-expanded` / `aria-controls`, labels associés aux champs, `lang="fr"`.
+
+## Données & honnêteté
+
+- **Centres** : 8 structures publiques réelles issues de l'annuaire de l'ANTS (source `ants.bj`) — Siège central (Cotonou), STS Littoral (CNHU-HKM), PTS CHU-MEL, STS Ouémé, STS Borgou, STS Atlantique, STS Atacora, STS Mono. Infoline `+229 21 32 04 35`, horaires Lun–Ven 08h00–17h30, RDV avec ou sans rendez-vous.
+- **Réserves** : chiffres **indicatifs** avec disclaimer explicite (l'ANTS ne publie pas de données en temps réel) et lien vers la source.
+- **En chiffres** : statistiques officielles ANTS 2025 (118 010 poches prélevées, 1 don toutes les 3 min, 51 % vers des enfants, 97 % de satisfaction) sourcées.
 
 ## Responsive
 
-Conçu mobile-first de **390 px à 1440 px** : nav + menu plein écran sur mobile, grilles fluides, cartes réactives, aucun débordement horizontal.
+Conçu mobile-first de **390 px à 1440 px** : nav + menu mobile plein écran, grilles fluides, cartes réactives, aucun débordement horizontal.
 
 ## Partis pris de conception
 
-1. **Rassurer avant de convaincre** : le hero attaque les deux plus grandes peurs dès le premier écran (durée « 15 min », impact « 3 vies »).
+1. **Rassurer avant de convaincre** : le hero attaque les deux plus grandes peurs dès le premier écran (durée « 10 min », impact « 3 vies »).
 2. **Le simulateur au cœur** : placé haut, il transforme le doute (« suis-je concerné ? ») en certitude, puis pousse vers les centres.
-3. **Répertoire = fonctionnalité centrale** : 11 centres sur 9 villes pour que la recherche et les filtres soient réellement évaluables.
-4. **Identité chaleureuse, pas clinique** : rouge brique `#E74C3C` en accent, fonds crème/bleu doux, typographies arrondies (Outfit + Plus Jakarta Sans). Un don de sang, ça reste humain.
-5. **Localisation assumée** : ancrage **Bénin / CNTS** — un parti pris éditorial fort qui échappe au générique.
+3. **Répertoire = fonctionnalité centrale** : 8 vraies structures ANTS pour que la recherche et les filtres soient réellement évaluables.
+4. **Identité chaleureuse, pas clinique** : rouge `#C8102E` en accent, fonds crème doux, typographies Fraunces (titres) + Plus Jakarta Sans (texte et logo) + IBM Plex Mono (données). Un don de sang, ça reste humain.
+5. **Illustration maison** : le hero est illustré en SVG (scène de don flottante) plutôt qu'une photo, indépendant et léger.
+6. **Localisation assumée** : ancrage **Bénin / ANTS** — un parti pris éditorial fort qui échappe au générique.
 
-## Processus IA (superdesign.dev)
+## Processus de conception
 
-Le design a été créé sur **superdesign.dev**, récupéré via le CLI officiel (`get-design`), puis porté en composants React en respectant le design system extrait. Le détail complet des prompts, ajustements manuels et limites est documenté dans **[`PROMPTS.md`](./PROMPTS.md)**.
+Le processus complet (brief, conception initiale, portage React, relectures produit et durcissement) est documenté dans **[`PROMPTS.md`](./PROMPTS.md)**, maintenu à jour au fil des évolutions.

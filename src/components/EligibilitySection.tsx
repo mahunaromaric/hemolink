@@ -12,25 +12,22 @@ type FieldErrors = Partial<Record<'age' | 'weight' | 'date', string>>
 
 const resultStyles: Record<
   EligibilityResult['status'],
-  { box: string; iconBg: string; icon: string; title: string }
+  { box: string; icon: string; title: string }
 > = {
   eligible: {
-    box: 'border-2 border-green-200 bg-green-50',
-    iconBg: 'bg-green-500 text-white',
+    box: 'bg-sage-tint text-[#2E4A38]',
     icon: 'check-circle',
-    title: 'Félicitations !',
+    title: 'Vous semblez éligible',
   },
   ineligible: {
-    box: 'border-2 border-red-200 bg-red-50',
-    iconBg: 'bg-red-500 text-white',
+    box: 'bg-red-tint text-[#6E1120]',
     icon: 'x-circle',
-    title: 'Pas pour cette fois...',
+    title: 'Non éligible pour le moment',
   },
   deferred: {
-    box: 'border-2 border-amber-200 bg-amber-50',
-    iconBg: 'bg-amber-500 text-white',
-    icon: 'clock',
-    title: 'Pas encore...',
+    box: 'bg-amber-tint text-[#6E4A22]',
+    icon: 'hourglass',
+    title: 'Presque prêt — patience',
   },
 }
 
@@ -39,7 +36,7 @@ export default function EligibilitySection() {
   const [weight, setWeight] = useState('')
   const [gender, setGender] = useState<Gender>('M')
   const [lastDonation, setLastDonation] = useState('')
-  const [neverDonated, setNeverDonated] = useState(false)
+  const [neverDonated, setNeverDonated] = useState(true)
 
   const [result, setResult] = useState<EligibilityResult | null>(null)
   const [errors, setErrors] = useState<FieldErrors>({})
@@ -50,10 +47,8 @@ export default function EligibilitySection() {
     const a = Number(age)
     const w = Number(weight)
 
-    if (!age || Number.isNaN(a) || a <= 0) errs.age = 'Renseignez votre âge.'
-    else if (a > 120) errs.age = 'L\u2019âge saisi semble invalide.'
-    if (!weight || Number.isNaN(w) || w <= 0) errs.weight = 'Renseignez votre poids.'
-    else if (w > 300) errs.weight = 'Le poids saisi semble invalide.'
+    if (!age || Number.isNaN(a) || a <= 0 || a > 120) errs.age = 'Âge invalide (0 à 120).'
+    if (!weight || Number.isNaN(w) || w <= 0 || w > 300) errs.weight = 'Poids invalide.'
 
     if (!neverDonated && lastDonation) {
       if (Number.isNaN(new Date(lastDonation).getTime()))
@@ -86,203 +81,226 @@ export default function EligibilitySection() {
   }
 
   const style = result ? resultStyles[result.status] : null
+  const showError = checked && Object.keys(errors).length > 0
 
   return (
-    <section id="test" className="py-12 sm:py-16 md:py-24 bg-softblue">
-      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-8">
-        <div className="bg-white rounded-[40px] p-6 sm:p-8 md:p-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <Icon name="clipboardCheck" size={120} className="text-secondary" />
-          </div>
-          <div className="relative z-10">
-            <div className="mb-10">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Puis-je donner mon sang ?
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600">
-                Faites le test en 30 secondes pour vérifier votre éligibilité
-                immédiate.
-              </p>
+    <section id="eligibilite" className="py-16 sm:py-22">
+      <div className="max-w-6xl mx-auto px-4 sm:px-7">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
+          <div>
+            <div className="eyebrow mb-4">
+              <Icon name="clipboardCheck" size={14} />
+              Qui peut donner
             </div>
+            <h2 className="text-3xl sm:text-4xl mb-4">
+              Vérifiez votre situation en moins d'une minute.
+            </h2>
+            <p className="text-[1.02rem] text-ink-soft">
+              Ce simulateur donne une première indication basée sur les
+              critères généraux. Il ne remplace pas l'entretien médical
+              réalisé sur place, seul habilité à confirmer votre aptitude au
+              don.
+            </p>
+            <div className="mt-8 rounded-2xl bg-teal-soft border border-line p-5">
+              <ul className="space-y-3">
+                <li className="flex items-center gap-3 text-sm">
+                  <Icon name="droplets" size={18} className="text-secondary shrink-0" />
+                  Don gratuit et anonyme
+                </li>
+                <li className="flex items-center gap-3 text-sm">
+                  <Icon name="clock" size={18} className="text-secondary shrink-0" />
+                  Environ 10 minutes sur place
+                </li>
+                <li className="flex items-center gap-3 text-sm">
+                  <Icon name="heart-pulse" size={18} className="text-secondary shrink-0" />
+                  Entretien médical confidentiel
+                </li>
+              </ul>
+            </div>
+          </div>
 
-            <form id="eligibilityForm" onSubmit={handleSubmit} noValidate className="space-y-6 sm:space-y-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                <div>
-                  <label htmlFor="age" className="block text-xs sm:text-sm font-bold text-slatedark mb-2">
-                    Âge actuel
-                  </label>
-                  <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    inputMode="numeric"
-                    min="0"
-                    max="120"
-                    placeholder="Ex: 25"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    aria-invalid={!!errors.age}
-                    aria-describedby={errors.age ? 'age-error' : undefined}
-                    className={`w-full bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
-                      errors.age ? 'border-red-300 bg-red-50' : ''
-                    }`}
-                  />
-                  {errors.age && (
-                    <p id="age-error" className="mt-1 text-xs text-red-600" role="alert">
-                      {errors.age}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="weight" className="block text-xs sm:text-sm font-bold text-slatedark mb-2">
-                    Poids (kg)
-                  </label>
-                  <input
-                    type="number"
-                    id="weight"
-                    name="weight"
-                    inputMode="decimal"
-                    min="0"
-                    max="300"
-                    step="0.5"
-                    placeholder="Ex: 65"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    aria-invalid={!!errors.weight}
-                    aria-describedby={errors.weight ? 'weight-error' : undefined}
-                    className={`w-full bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
-                      errors.weight ? 'border-red-300 bg-red-50' : ''
-                    }`}
-                  />
-                  {errors.weight && (
-                    <p id="weight-error" className="mt-1 text-xs text-red-600" role="alert">
-                      {errors.weight}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="gender" className="block text-xs sm:text-sm font-bold text-slatedark mb-2">
-                    Sexe biologique
-                  </label>
-                  <select
-                    id="gender"
-                    name="gender"
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value as Gender)}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                  >
-                    <option value="M">Homme</option>
-                    <option value="F">Femme</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="lastDonation" className="block text-xs sm:text-sm font-bold text-slatedark mb-2">
-                    Date du dernier don
-                  </label>
-                  <input
-                    type="date"
-                    id="lastDonation"
-                    name="lastDonation"
-                    max={new Date().toISOString().slice(0, 10)}
-                    value={lastDonation}
-                    onChange={(e) => setLastDonation(e.target.value)}
-                    disabled={neverDonated}
-                    aria-invalid={!!errors.date}
-                    aria-describedby={errors.date ? 'date-error' : undefined}
-                    className={`w-full bg-gray-50 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all disabled:opacity-50 ${
-                      errors.date ? 'border-red-300 bg-red-50' : ''
-                    }`}
-                  />
-                  {errors.date && (
-                    <p id="date-error" className="mt-1 text-xs text-red-600" role="alert">
-                      {errors.date}
-                    </p>
-                  )}
-                </div>
+          <div className="relative overflow-hidden bg-white border border-line rounded-3xl shadow-card p-6 sm:p-10">
+            <Icon
+              name="heart-pulse"
+              size={150}
+              className="absolute -right-8 -top-8 text-secondary opacity-[0.06] pointer-events-none"
+              aria-hidden="true"
+            />
+            <form id="eligibilityForm" onSubmit={handleSubmit} noValidate className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="age" className="block text-[0.82rem] font-semibold mb-1.5">
+                  Âge (années)
+                </label>
+                <input
+                  type="number"
+                  id="age"
+                  name="age"
+                  inputMode="numeric"
+                  min="0"
+                  max="120"
+                  placeholder="Ex. 27"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  aria-invalid={!!errors.age}
+                  aria-describedby={errors.age ? 'age-error' : undefined}
+                  className={`w-full px-3.5 py-2.5 border-[1.5px] rounded-lg text-sm focus:outline-none focus:border-secondary ${
+                    errors.age ? 'border-primary bg-red-tint' : 'border-line bg-white'
+                  }`}
+                />
+                {errors.age && (
+                  <p id="age-error" className="mt-1 text-xs text-red-deep" role="alert">
+                    {errors.age}
+                  </p>
+                )}
               </div>
 
-              <label className="flex items-center gap-3 cursor-pointer text-sm text-gray-600">
+              <div>
+                <label htmlFor="weight" className="block text-[0.82rem] font-semibold mb-1.5">
+                  Poids (kg)
+                </label>
                 <input
-                  type="checkbox"
-                  id="neverDonated"
-                  checked={neverDonated}
-                  onChange={(e) => setNeverDonated(e.target.checked)}
-                  className="w-4 h-4 rounded accent-primary"
+                  type="number"
+                  id="weight"
+                  name="weight"
+                  inputMode="decimal"
+                  min="0"
+                  max="300"
+                  step="0.5"
+                  placeholder="Ex. 62"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  aria-invalid={!!errors.weight}
+                  aria-describedby={errors.weight ? 'weight-error' : undefined}
+                  className={`w-full px-3.5 py-2.5 border-[1.5px] rounded-lg text-sm focus:outline-none focus:border-secondary ${
+                    errors.weight ? 'border-primary bg-red-tint' : 'border-line bg-white'
+                  }`}
                 />
-                Je n'ai jamais donné mon sang
+                {errors.weight && (
+                  <p id="weight-error" className="mt-1 text-xs text-red-deep" role="alert">
+                    {errors.weight}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[0.82rem] font-semibold mb-1.5">Sexe</p>
+              <div className="flex gap-2.5">
+                {(['M', 'F'] as Gender[]).map((g) => (
+                  <label
+                    key={g}
+                    className={`flex items-center gap-2 border-[1.5px] rounded-full px-4 py-2 text-sm cursor-pointer transition-colors ${
+                      gender === g
+                        ? 'border-secondary bg-teal-soft'
+                        : 'border-line'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={g}
+                      checked={gender === g}
+                      onChange={() => setGender(g)}
+                      className="accent-secondary"
+                    />
+                    {g === 'M' ? 'Homme' : 'Femme'}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2.5 text-sm text-ink-soft cursor-pointer">
+              <input
+                type="checkbox"
+                id="neverDonated"
+                checked={neverDonated}
+                onChange={(e) => {
+                  setNeverDonated(e.target.checked)
+                  if (e.target.checked) setLastDonation('')
+                }}
+                className="accent-primary"
+              />
+              Je n'ai jamais donné mon sang
+            </label>
+
+            <div>
+              <label htmlFor="lastDonation" className="block text-[0.82rem] font-semibold mb-1.5">
+                Date de mon dernier don
               </label>
+              <input
+                type="date"
+                id="lastDonation"
+                name="lastDonation"
+                max={new Date().toISOString().slice(0, 10)}
+                value={lastDonation}
+                onChange={(e) => setLastDonation(e.target.value)}
+                disabled={neverDonated}
+                aria-invalid={!!errors.date}
+                aria-describedby={errors.date ? 'date-error' : undefined}
+                className={`w-full px-3.5 py-2.5 border-[1.5px] rounded-lg text-sm focus:outline-none focus:border-secondary disabled:opacity-50 ${
+                  errors.date ? 'border-primary bg-red-tint' : 'border-line bg-white'
+                }`}
+              />
+              {errors.date && (
+                <p id="date-error" className="mt-1 text-xs text-red-deep" role="alert">
+                  {errors.date}
+                </p>
+              )}
+            </div>
 
-              <button
-                type="submit"
-                className="w-full bg-secondary text-white font-bold py-4 rounded-xl hover:opacity-90 transition-all shadow-lg"
-              >
-                Calculer mon éligibilité
-              </button>
-            </form>
-
-            <div
-              className={`mt-8 p-6 rounded-2xl border-2 flex items-start gap-4 ${
-                style ? style.box : checked && Object.keys(errors).length > 0
-                  ? 'border-orange-200 bg-orange-50'
-                  : 'hidden'
-              }`}
-              role={style ? 'status' : 'alert'}
-              aria-live="polite"
-              aria-atomic="true"
+            <button
+              type="submit"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
             >
-              {style && result ? (
+              <Icon name="search" size={15} />
+              Vérifier mon éligibilité
+            </button>
+          </form>
+
+          <div
+            className={`mt-6 p-5 rounded-xl gap-3 items-start ${
+              style || showError ? 'flex' : 'hidden'
+            } ${showError ? 'bg-red-tint text-[#6E1120]' : style?.box ?? ''}`}
+            role={showError ? 'alert' : 'status'}
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <Icon
+              name={showError ? 'alert-circle' : style?.icon ?? 'info'}
+              size={22}
+              className="mt-0.5 shrink-0"
+            />
+            <div>
+              <h3 className="text-[0.98rem] font-bold mb-1">
+                {showError ? 'Formulaire incomplet' : style?.title}
+              </h3>
+              {showError ? (
+                <p className="text-sm">Merci de corriger les champs signalés ci-dessus.</p>
+              ) : result?.status === 'eligible' ? (
+                <p className="text-sm">
+                  Sur la base de ces critères, rien ne vous empêche de donner.
+                  Rendez-vous dans un centre pour confirmer votre aptitude lors
+                  de l'entretien médical.
+                </p>
+              ) : result?.status === 'ineligible' ? (
+                <p className="text-sm">{result.message}</p>
+              ) : result ? (
                 <>
-                  <div className={`p-3 rounded-full ${style.iconBg} shrink-0`}>
-                    <Icon name={style.icon} size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">{style.title}</h3>
-                    {result.status === 'eligible' && (
-                      <>
-                        <p className="text-gray-600 text-sm mb-2">
-                          Vous semblez éligible au don de sang d'après ces critères
-                          de base.
-                        </p>
-                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
-                          Trouvez le centre le plus proche ci-dessous.
-                        </p>
-                      </>
-                    )}
-                    {result.status === 'ineligible' && (
-                      <p className="text-gray-600 text-sm mb-2">{result.message}</p>
-                    )}
-                    {result.status === 'deferred' && (
-                      <>
-                        <p className="text-gray-600 text-sm mb-2">{result.message}</p>
-                        <p className="text-sm font-bold text-slatedark">
-                          {formatDateFr(result.nextEligibleDate)}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </>
-              ) : checked && Object.keys(errors).length > 0 ? (
-                <>
-                  <div className="p-3 rounded-full bg-orange-500 text-white shrink-0">
-                    <Icon name="alert-circle" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">Oups !</h3>
-                    <p className="text-gray-600 text-sm">
-                      Veuillez corriger les champs signalés ci-dessus.
-                    </p>
-                  </div>
+                  <p className="text-sm">{result.message}</p>
+                  <p className="font-mono text-sm font-semibold mt-1">
+                    {formatDateFr(result.nextEligibleDate)}
+                  </p>
                 </>
               ) : null}
             </div>
+          </div>
 
-            <p className="mt-6 text-[10px] text-gray-400 italic uppercase tracking-wider">
-              * Seul un entretien médical professionnel peut confirmer
-              définitivement votre aptitude au don.
-            </p>
+          <p className="mt-5 text-xs text-ink-faint flex gap-2 items-start">
+            <Icon name="info" size={14} className="mt-0.5 shrink-0" />
+            Résultat indicatif. Seul un entretien médical réalisé le jour du don
+            peut confirmer votre aptitude à donner.
+          </p>
           </div>
         </div>
       </div>

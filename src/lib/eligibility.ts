@@ -29,6 +29,17 @@ export function isDonationDelayElapsed(lastDonation: Date, gender: Gender, today
   return today >= next
 }
 
+function isCalendarValid(s: string): boolean {
+  const d = new Date(s)
+  if (Number.isNaN(d.getTime())) return false
+  // Date calendaire pure (YYYY-MM-DD) : rejeter les débordements (ex. 2023-02-30)
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+    const [y, m, day] = s.split('-').map(Number)
+    return d.getUTCFullYear() === y && d.getUTCMonth() + 1 === m && d.getUTCDate() === day
+  }
+  return true
+}
+
 export function checkEligibility(input: EligibilityInput, today: Date = new Date()): EligibilityResult {
   const { age, weightKg, gender, lastDonationDate } = input
 
@@ -37,6 +48,22 @@ export function checkEligibility(input: EligibilityInput, today: Date = new Date
       status: 'ineligible',
       blocking: 'age',
       message: 'Veuillez renseigner votre âge et votre poids pour lancer le test.',
+    }
+  }
+
+  if (!Number.isFinite(age) || !Number.isFinite(weightKg) || age <= 0 || weightKg <= 0) {
+    return {
+      status: 'ineligible',
+      blocking: 'age',
+      message: 'Les valeurs renseignées sont invalides.',
+    }
+  }
+
+  if (gender !== 'M' && gender !== 'F') {
+    return {
+      status: 'ineligible',
+      blocking: 'age',
+      message: 'Les informations renseignées sont invalides.',
     }
   }
 
@@ -61,12 +88,17 @@ export function checkEligibility(input: EligibilityInput, today: Date = new Date
     return { status: 'eligible' }
   }
 
-  const lastDonation = new Date(lastDonationDate)
-  if (Number.isNaN(lastDonation.getTime())) {
+  const lastDonation =
+    typeof lastDonationDate === 'string' ? new Date(lastDonationDate) : new Date(NaN)
+  if (
+    Number.isNaN(lastDonation.getTime()) ||
+    !isCalendarValid(lastDonationDate) ||
+    lastDonation > today
+  ) {
     return {
       status: 'ineligible',
       blocking: 'age',
-      message: 'La date de dernier don renseignée est invalide.',
+      message: 'La date de dernier don est invalide ou dans le futur.',
     }
   }
 
