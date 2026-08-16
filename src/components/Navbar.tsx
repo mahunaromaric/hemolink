@@ -3,11 +3,11 @@ import { Icon } from './Icon'
 
 const links = [
   { href: '#pourquoi', label: 'Pourquoi donner', id: 'nav-pourquoi' },
-  { href: '#eligibilite', label: 'Éligibilité', id: 'nav-eligibilite' },
-  { href: '#deroulement', label: 'Déroulement', id: 'nav-deroulement' },
-  { href: '#centres', label: 'Centres', id: 'nav-centres' },
-  { href: '#reserves', label: 'État des réserves', id: 'nav-reserves' },
-  { href: '#faq', label: 'FAQ', id: 'nav-faq' },
+  { href: '#eligibilite', label: 'Puis-je donner ?', id: 'nav-eligibilite' },
+  { href: '#deroulement', label: 'Comment ça se passe ?', id: 'nav-deroulement' },
+  { href: '#centres', label: 'Où donner', id: 'nav-centres' },
+  { href: '#reserves', label: 'Besoins', id: 'nav-reserves' },
+  { href: '#faq', label: 'Questions', id: 'nav-faq' },
 ]
 
 export default function Navbar() {
@@ -51,13 +51,6 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden xl:flex items-center gap-2">
-          <a
-            href="#centres"
-            className="inline-flex items-center gap-2 whitespace-nowrap min-h-12 px-4 py-2.5 rounded-xl border-[1.5px] border-line font-semibold text-sm hover:border-secondary transition-colors"
-          >
-            <Icon name="map-pin" size={15} />
-            Trouver un centre
-          </a>
           <a
             href="#eligibilite"
             className="inline-flex items-center gap-2 whitespace-nowrap min-h-12 px-4 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-red-deep transition-colors"
