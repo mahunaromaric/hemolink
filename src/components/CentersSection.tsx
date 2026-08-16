@@ -176,17 +176,17 @@ export default function CentersSection() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            <div className="relative">
+            <label className="relative inline-flex items-center min-h-12 gap-2 rounded-full bg-white border border-line pl-3.5 pr-4 text-ink-soft focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary/50 cursor-pointer">
               <Icon
                 name="map-pin"
                 size={15}
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint pointer-events-none"
+                className="text-ink-faint pointer-events-none shrink-0"
               />
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 aria-label="Filtrer par ville"
-                className="min-h-12 rounded-full bg-white border border-line pl-9 pr-4 py-2 text-sm text-ink-soft focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                className="appearance-none bg-transparent outline-none text-sm text-ink-soft cursor-pointer"
               >
                 <option value="all">Toutes les villes</option>
                 {cities.map((c) => (
@@ -195,7 +195,7 @@ export default function CentersSection() {
                   </option>
                 ))}
               </select>
-            </div>
+            </label>
 
             <div className="flex items-center gap-1.5">
               {donTypes.map((t) => {
